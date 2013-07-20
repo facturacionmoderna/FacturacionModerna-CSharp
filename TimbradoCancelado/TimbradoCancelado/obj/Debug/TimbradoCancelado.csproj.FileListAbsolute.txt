@@ -1,0 +1,40 @@
+C:\FacturacionModernaC#\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.exe.config
+C:\FacturacionModernaC#\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.exe
+C:\FacturacionModernaC#\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.pdb
+C:\FacturacionModernaC#\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.frmEjemplos.resources
+C:\FacturacionModernaC#\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.Properties.Resources.resources
+C:\FacturacionModernaC#\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.csproj.GenerateResource.Cache
+C:\FacturacionModernaC#\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.exe
+C:\FacturacionModernaC#\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.pdb
+C:\FacturacionModernaC#\TimbradoCancelado\TimbradoCancelado\bin\Debug\Comprobante.dll
+C:\FacturacionModernaC#\TimbradoCancelado\TimbradoCancelado\bin\Debug\Comprobante.pdb
+C:\FacturacionModernaC#\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.csprojResolveAssemblyReference.cache
+C:\FacturacionModernaCNet\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.exe.config
+C:\FacturacionModernaCNet\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.exe
+C:\FacturacionModernaCNet\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.pdb
+C:\FacturacionModernaCNet\TimbradoCancelado\TimbradoCancelado\bin\Debug\Comprobante.dll
+C:\FacturacionModernaCNet\TimbradoCancelado\TimbradoCancelado\bin\Debug\WSConecFM.dll
+C:\FacturacionModernaCNet\TimbradoCancelado\TimbradoCancelado\bin\Debug\Comprobante.pdb
+C:\FacturacionModernaCNet\TimbradoCancelado\TimbradoCancelado\bin\Debug\WSConecFM.pdb
+C:\FacturacionModernaCNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.frmEjemplos.resources
+C:\FacturacionModernaCNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.Properties.Resources.resources
+C:\FacturacionModernaCNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.csproj.GenerateResource.Cache
+C:\FacturacionModernaCNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.exe
+C:\FacturacionModernaCNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.pdb
+C:\FacturacionModernaCNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.csprojResolveAssemblyReference.cache
+C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.exe.config
+C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.exe
+C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.pdb
+C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.exe
+C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.pdb
+C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\Comprobante.dll
+C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\WSConecFM.dll
+C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\Comprobante.pdb
+C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\WSConecFM.pdb
+C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.frmEjemplos.resources
+C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.Properties.Resources.resources
+C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.csproj.GenerateResource.Cache
+C:\FacturacionModernaCSharp - copia\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.exe.config
+C:\FacturacionModernaCSharp - copia\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.exe
+C:\FacturacionModernaCSharp - copia\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.pdb
+C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.csprojResolveAssemblyReference.cache

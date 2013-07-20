@@ -1,0 +1,4 @@
+Crear la siguiente carpeta
+
+1.- c:\\FacturacionModernaCSharp\
+2.- Copiar todo el contenido de esta carpeta en la carpeta creada
