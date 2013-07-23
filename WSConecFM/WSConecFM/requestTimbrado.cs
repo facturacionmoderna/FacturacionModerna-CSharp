@@ -16,7 +16,7 @@ namespace WSConecFM
         public Boolean generarCBB;
         public Boolean generarTXT;
         public Boolean generarPDF;
-        public string urltimbrado;
+        public string urlTimbrado;
 
         public requestTimbrarCFDI()
         {
@@ -27,7 +27,7 @@ namespace WSConecFM
             this.generarCBB = false;
             this.generarPDF = false;
             this.generarTXT = false;
-            this.urltimbrado = "https://t1demo.facturacionmoderna.com/timbrado/soap";
+            this.urlTimbrado = "https://t1demo.facturacionmoderna.com/timbrado/soap";
         }
     }
 }

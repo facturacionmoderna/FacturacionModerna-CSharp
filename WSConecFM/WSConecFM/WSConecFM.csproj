@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="requestCancelado.cs" />
     <Compile Include="requestTimbrado.cs" />
+    <Compile Include="Resultados.cs" />
     <Compile Include="Service References\WSLayoutFacturacionModerna\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

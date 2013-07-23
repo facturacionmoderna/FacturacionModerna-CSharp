@@ -12,15 +12,15 @@ using System;
 namespace WSConecFM.WSLayoutFacturacionModerna {
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="https://t1demo.facturacionmoderna.com/timbrado/soap", ConfigurationName="WSLayoutFacturacionModerna.Timbrado_ManagerPort")]
+    [System.ServiceModel.ServiceContractAttribute(Namespace="", ConfigurationName="WSLayoutFacturacionModerna.Timbrado_ManagerPort")]
     public interface Timbrado_ManagerPort {
         
-        [System.ServiceModel.OperationContractAttribute(Action="https://t1demo.facturacionmoderna.com/timbrado/soap#requestTimbrarCFDI", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
         object requestTimbrarCFDI(requestTimbrarCFDI request);
         
-        [System.ServiceModel.OperationContractAttribute(Action="https://t1demo.facturacionmoderna.com/timbrado/soap#requestCancelarCFDI", ReplyAction="*")]
+        [System.ServiceModel.OperationContractAttribute(Action="", ReplyAction="*")]
         [System.ServiceModel.XmlSerializerFormatAttribute(Style=System.ServiceModel.OperationFormatStyle.Rpc, SupportFaults=true, Use=System.ServiceModel.OperationFormatUse.Encoded)]
         [return: System.ServiceModel.MessageParameterAttribute(Name="return")]
         object requestCancelarCFDI(requestCancelarCFDI request);

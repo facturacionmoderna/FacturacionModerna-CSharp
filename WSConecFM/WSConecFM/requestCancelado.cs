@@ -13,8 +13,8 @@ namespace WSConecFM
         public string UserID;
         public string UserPass;
         public string emisorRFC;
+        public string urlCancelado;
         public string uuid;
-        public string urlcancelado;
 
         public requestCancelarCFDI()
         {
@@ -24,8 +24,7 @@ namespace WSConecFM
             this.UserID = "UsuarioPruebasWS";
             this.UserPass = "b9ec2afa3361a59af4b4d102d3f704eabdf097d4";
             this.emisorRFC = "ESI920427886";
-            this.uuid = "";
-            this.urlcancelado = "https://t1demo.facturacionmoderna.com/timbrado/soap";
+            this.urlCancelado = "https://t1demo.facturacionmoderna.com/timbrado/soap";
         }
     }
 

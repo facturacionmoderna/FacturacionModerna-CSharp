@@ -1,6 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
+Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2012
+# SharpDevelop 4.3
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimbradoCancelado", "TimbradoCancelado\TimbradoCancelado.csproj", "{782FFD9E-3966-4E58-8BF1-FFF05A29B227}"
 EndProject
 Global
@@ -13,6 +14,10 @@ Global
 		{782FFD9E-3966-4E58-8BF1-FFF05A29B227}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{782FFD9E-3966-4E58-8BF1-FFF05A29B227}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{782FFD9E-3966-4E58-8BF1-FFF05A29B227}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F14ED0D4-8BEE-4BA2-88F6-DFDE7E8606FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F14ED0D4-8BEE-4BA2-88F6-DFDE7E8606FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F14ED0D4-8BEE-4BA2-88F6-DFDE7E8606FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F14ED0D4-8BEE-4BA2-88F6-DFDE7E8606FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

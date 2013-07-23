@@ -1,19 +1,4 @@
-﻿///***************************************************************************
-//* Descripción: Ejemplo del uso de la clase WSConecFM de Facturacion Moderna para el
-//* Timbrado y cancelacion de un comprobante generando un
-//* archivo XML de un CFDI 3.2 y enviandolo a certificar.
-//*
-//* Nota: Esté ejemplo pretende ilustrar de manera general el proceso de sellado y
-//* timbrado de un XML que cumpla con los requerimientos del SAT.
-//*
-//* Facturación Moderna :  http://www.facturacionmoderna.com
-//* @author Benito Arango <benito.arango@facturacionmoderna.com>
-//* @version 1.0
-//*
-//*****************************************************************************
-
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -24,9 +9,18 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Comprobante;
 using WSConecFM;
+using System.IO;
 
 namespace TimbradoCancelado
 {
+    /* NOTAS
+     * *    Todas las peticiones a los metodos de los Dlls retornan un objeto de tipo Resultados
+     * *    que contiene los siguientes atributos:
+     * *    1.- code; Codigo de error
+     * *    2.- message; Mensaje de error, mensaje de exito o resultado
+     * *    3.- status; solo toma los valores de True o False
+     * *    4.- ncert; contiene el numero de certificado, solo en algunos casos
+    */
     public partial class frmEjemplos : Form
     {
         public frmEjemplos()
@@ -34,116 +28,171 @@ namespace TimbradoCancelado
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Metodo para generar el comprobante fiscal
+        /// </summary>
         private void cmdTimbraXML_Click(object sender, EventArgs e)
         {
             // Especificación de rutas especificas
             string keyfile = "C:\\FacturacionModernaCSharp\\utilerias\\certificados\\20001000000200000192.key";
             string certfile = "C:\\FacturacionModernaCSharp\\utilerias\\certificados\\20001000000200000192.cer";
             string password = "12345678a";
-            string xsltfile = "C:\\FacturacionModernaCSharp\\utilerias\\xslt32\\cadenaoriginal_3_2.xslt";
+            string version = "3.2";
             string xmlfile = txtXML.Text;
-            string originalPath = "C:\\FacturacionModernaCSharp\\resultados\\cadenaOriginal.txt";
             string path = "C:\\FacturacionModernaCSharp\\resultados";
-            string numCert = "20001000000200000192";
 
-            // Generar la cadena original
-            // Crear instancias de la clase cadena
+            Cursor.Current = Cursors.WaitCursor;
+            Comprobante.Resultados r_comprobante = new Comprobante.Resultados();
+            WSConecFM.Resultados r_wsconect = new WSConecFM.Resultados();
+
+            /* GENERAR CADENA ORIGINAL
+             * *    Los paramteros enviado son:
+             * *    1.- version del comprobante
+             * *    2.- xml (Puede ser una cadena o una ruta)
+             * Retorna la cadena original en r_comprobante.message
+            */
             Cadena cadena = new Cadena();
-            //Llamar la funcion generar cadena, (Regresa un arreglo, status y mensaje), enviando como parametros:
-            // 1.- Ruta del archivo xslt, el cual contiene el esquema de la cadena original
-            // 2.- Ruta del archivo xml, del cual se tomaran los datos para generar la cadena original
-            // 3.- Ruta donde se guardará el archivo de la cadena original
-            string [] r_cadena = cadena.GeneraCadena(xsltfile, xmlfile, originalPath);
-            if (r_cadena[0] == "1")
+            r_comprobante = cadena.GeneraCadena(version, xmlfile);
+            if (!r_comprobante.status)
             {
-                MessageBox.Show(r_cadena[1]);
-                this.Close();
+                MessageBox.Show(r_comprobante.message);
+                Close();
             }
+            string cadenaO = r_comprobante.message;
 
-            // Generar el sello del comprobante
-            // Crear instancia de la clase Sello
+            /* GENERAR EL SELLO DEL COMPROBANTE
+             * *    Los parametros enviado son:
+             * *    1.- archivo de llave privada (.key)
+             * *    2.- Contraseña del archivo de llave privada
+             * *    3.- Cadena Original (Puede ser una cadena o una ruta)
+             * Retorna el sello en r_comprobante.message
+            */
             Sello sello = new Sello();
-            //Llamar la funcion generar sello, (Regresa un arreglo, status y mensaje), enviando como parametros:
-            // 1.- Ruta de archivo de llave privada (.key)
-            // 2.- Contraseña del archivo de llave privada
-            // 3.- Ruta del archivo que contiene la cadena original
-            string [] r_sello = sello.GeneraSello(keyfile, password, originalPath);
-            if (r_sello[0] == "1")
+            r_comprobante = sello.GeneraSello(keyfile, password, cadenaO);
+            if (!r_comprobante.status)
             {
-                MessageBox.Show(r_sello[1]);
-                this.Close();
+                MessageBox.Show(r_comprobante.message);
+                Close();
             }
-            string str_sello = r_sello[1];
+            string str_sello = r_comprobante.message;
 
-            // Obtener el contenido del certificado
-            // Extrae el contenido del certificado (.cer)
-            // Enviar como parametro la ruta del archivo del certificado
-            string [] r_certificado = sello.obtenCertificado(certfile);
-            if (r_certificado[0] == "1")
+            /*  OBTENER LA INFORMACION DEL CERTIFICADO
+             * *    Los parametros enviados son:
+             * *    1.- Ruta del certificado
+             * Retorna el numero de certificado en r_comprobante.ncert
+             * Retorna el certificado en base 64 en r_comprobante.message
+            */
+            r_comprobante = sello.obtenCertificado(certfile);
+            if (!r_comprobante.status)
             {
-                MessageBox.Show(r_certificado[1]);
-                this.Close();
+                MessageBox.Show(r_comprobante.message);
+                Close();
             }
-            string str_certificado = r_certificado[1];
+            string cert_b64 = r_comprobante.message;
+            string cert_No = r_comprobante.ncert;
 
-            // Agregar el sello generado al comprobante
-            // Los parametros son:
-            // 1.- Ruta del archivo XML
-            // 2.- Cadena del sello digital
-            // 3.- Cadena del certificado
-            // 4.- Número de certificado (.cer)
-            string[] r_agregasello = sello.agregaSello(xmlfile, str_sello, str_certificado, numCert);
-            if (r_agregasello[0] == "1")
+            /*  AGREGAR LA INFORMACION DEL SELLO AL XML
+             * *    Los parametros enviados son:
+             * *    1.- Xml (Puede ser una cadena o una ruta)
+             * *    2.- Sello del comprobante
+             * *    3.- Certificado codificado en base 64
+             * *    4.- Numero de certificado
+             * Retorna el XML en r_comprobante.message
+            */
+            StreamReader objReader = new StreamReader(xmlfile, Encoding.UTF8);
+            xmlfile = objReader.ReadToEnd();
+            objReader.Close();
+            r_comprobante = sello.agregaSello(xmlfile, str_sello, cert_b64, cert_No);
+            if (!r_comprobante.status)
             {
-                MessageBox.Show(r_agregasello[1]);
-                this.Close();
+                MessageBox.Show(r_comprobante.message);
+                Application.Exit();
             }
+            xmlfile = r_comprobante.message;
 
-            // Crear instancia a la clase de timbrado
-            Timbrado conex = new Timbrado();
-
-            // Crear instancia a requestTimbrarCFDI, Regresa los parametros necesarios para poder realziar la conexion SOAP (Ya cuenta con los parametros necesarios para la conexion)
-            // Los posibles valores son:
-            // string text2CFDI: Archivo XML codificado en base 64 para ser timbrado
-            // string UserID: Nombre de usuario para conexion con SOAP
-            // string UserPass: Contraseña de usuario para conexion con SOAP
-            // string emisorRFC: RFC del emisor
-            // Boolean generarCBB: Retorna el Codigo de Barras Bidimension, Si esta es TRUE, generarPDF y generarTXT se convierten en FALSE
-            // Boolean generarTXT: Retorna el comprobante en TXT
-            // Boolean generarPDF: Retorna el comprobante en PDF
-            // string urltimbrado: URL de acceso al servisio SOAP
+            /*  CREAR LA CONFIGURACION DE CONEXION CON EL SERVICIO SOAP
+             * *    Los parametros configurables son:
+             * *    1.- string UserID; Nombre de usuario que se utiliza para la conexion con SOAP
+             * *    2.- string UserPass; Contraseña del usuario para conectarse a SOAP
+             * *    3.- string emisorRFC; RFC del contribuyente
+             * *    4.- Boolean generarCBB; Indica si se desea generar el CBB
+             * *    5.- Boolean generarTXT; Indica si se desea generar el TXT
+             * *    6.- Boolean generarPDF; Indica si se desea generar el PDF
+             * *    7.- string urlTimbrado; URL de la conexion con SOAP
+             * La configuracion inicial es para el ambiente de pruebas
+            */
             requestTimbrarCFDI reqt = new requestTimbrarCFDI();
-            // Para cambiar un valor hacer lo del siguiente ejemplo:
-            // reqt.generarPDF = true;
+            /*
+             * Si desea cambiar alguna configuracion realizarla solo realizar lo siguiente
+             * reqt.generarPDF = true;  Por poner un ejemplo
+            */
 
-            // Ejecutar Timbrado del comprobante
-            string[] r_timbrar = conex.Timbrar(xmlfile, reqt, path);
-            MessageBox.Show(r_timbrar[1]);
+            /*  TIMBRAR XML
+             * *    Los parametros enviados son:
+             * *    1.- XML; (Acepta una ruta o una cadena)
+             * *    2.- Objeto con las configuraciones de conexion con SOAP
+             * Retorna un objeto con los siguientes valores codificado en base 64:
+             * *    1.- xml en base 64
+             * *    2.- pdf en base 64
+             * *    3.- png en base 64
+             * *    4.- txt en base 64
+             * Los valores de retorno van a depender de la configuracion enviada a la función
+             */
+            Timbrado timbra = new Timbrado();
+            r_wsconect = timbra.Timbrar(xmlfile, reqt);
+            if (!r_wsconect.status)
+            {
+                MessageBox.Show(r_wsconect.message);
+                Close();
+            }
+            FileStream stream = new FileStream(path + "\\" + r_wsconect.uuid + ".xml", FileMode.Create, FileAccess.Write);
+            StreamWriter writer = new StreamWriter(stream);
+            writer.WriteLine(Convert.FromBase64String(r_wsconect.xmlBase64));
+            writer.Close();
+            if (reqt.generarCBB) {
+                FileStream streamcbb = new FileStream(path + "\\" + r_wsconect.uuid + ".png", FileMode.Create, FileAccess.Write);
+                StreamWriter writercbb = new StreamWriter(streamcbb);
+                writercbb.WriteLine(Convert.FromBase64String(r_wsconect.cbbBase64));
+                writercbb.Close();
+            }
+            if (reqt.generarPDF)
+            {
+                FileStream streampdf = new FileStream(path + "\\" + r_wsconect.uuid + ".pdf", FileMode.Create, FileAccess.Write);
+                StreamWriter writerpdf = new StreamWriter(streampdf);
+                writerpdf.WriteLine(Convert.FromBase64String(r_wsconect.pdfBase64));
+                writerpdf.Close();
+            }
+            if (reqt.generarTXT)
+            {
+                FileStream streamtxt = new FileStream(path + "\\" + r_wsconect.uuid + ".txt", FileMode.Create, FileAccess.Write);
+                StreamWriter writertxt = new StreamWriter(streamtxt);
+                writertxt.WriteLine(Convert.FromBase64String(r_wsconect.txtBase64));
+                writertxt.Close();
+            }
 
-            // Fin de Timbrado
-            this.Close();
+            MessageBox.Show("Comprobante guardado en "+ path + "\\");
+            Cursor.Current = Cursors.Default;
+            Close();
         }
 
+        /// <summary>
+        /// Metodo para cancelar un comprobante por medio de su UUID
+        /// </summary>
         private void cmdCancelarUUID_Click(object sender, EventArgs e)
         {
-            // Cancelar un comprobante por medio de su UUID
-            // Crear la instancia de la clase Cancelado
-            Cancelado conex = new Cancelado();
-            // Crear instancia a requestCancelarCFDI, Regresa los parametros necesarios para poder realziar la conexion SOAP (Ya cuenta con los parametros necesarios para la conexion)
-            // Los posibles valores son:
-            // string UserID: Nombre de usuario para conexion con SOAP
-            // string UserPass: Contraseña de usuario para conexion con SOAP
-            // string emisorRFC: RFC del emisor
-            // Boolean uuid: UUID que se va a cancelar
-            // string urlcancelado: URL de acceso al servisio SOAP
+            Cursor.Current = Cursors.WaitCursor;
+            string uuid = txtUUID.Text;
+
+            WSConecFM.Resultados r_wsconect = new WSConecFM.Resultados();
+
             requestCancelarCFDI reqc = new requestCancelarCFDI();
-            reqc.uuid = txtUUID.Text;
 
-            // Ejecutar Cancelado del comprobante
-            string[] r_cancelar = conex.Cancelar(reqc);
-            MessageBox.Show(r_cancelar[1]);
+            Cancelado conex = new Cancelado();
+            r_wsconect = conex.Cancelar(reqc, uuid);
 
-            this.Close();
+            MessageBox.Show(r_wsconect.message);
+            Cursor.Current = Cursors.Default;
+            Close();
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -151,23 +200,29 @@ namespace TimbradoCancelado
 
         }
 
+        /// <summary>
+        /// Metodo para generar el comprobante mediante un Layout
+        /// </summary>
         private void cmdTimbrarL_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
             string layoutFile = txtLayout.Text;
             string path = "C:\\FacturacionModernaCSharp\\resultados";
-
-            // Crear instancia a la clase de timbrado
-            Timbrado conex = new Timbrado();
+            WSConecFM.Resultados r_wsconect = new WSConecFM.Resultados();
 
             // Crear instancia, para los para metros enviados a requestTimbradoCFDI
             requestTimbrarCFDI reqt = new requestTimbrarCFDI();
 
-            // Ejecutar Timbrado del comprobante
-            string[] r_timbrar = conex.Timbrar(layoutFile, reqt, path);
-            MessageBox.Show(r_timbrar[1]);
+            Timbrado timbra = new Timbrado();
+            r_wsconect = timbra.Timbrar(layoutFile, reqt);
+            FileStream stream = new FileStream(path + "\\" + r_wsconect.uuid + ".xml", FileMode.Create, FileAccess.Write);
+            StreamWriter writer = new StreamWriter(stream);
+            writer.WriteLine(Convert.FromBase64String(r_wsconect.xmlBase64));
+            writer.Close();
+            MessageBox.Show("Comprobante guardado en " + path + "\\");
 
-            // Fin de Timbrado
-            this.Close();
+            Cursor.Current = Cursors.Default;
+            Close();
         }
     }
 }

@@ -22,19 +22,19 @@ C:\FacturacionModernaCNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\Timbrado
 C:\FacturacionModernaCNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.exe
 C:\FacturacionModernaCNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.pdb
 C:\FacturacionModernaCNet\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.csprojResolveAssemblyReference.cache
+C:\FacturacionModernaCSharp - copia\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.exe.config
+C:\FacturacionModernaCSharp - copia\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.exe
+C:\FacturacionModernaCSharp - copia\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.pdb
 C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.exe.config
-C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.exe
-C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.pdb
 C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.exe
 C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.pdb
 C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\Comprobante.dll
 C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\WSConecFM.dll
 C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\Comprobante.pdb
 C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\WSConecFM.pdb
+C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.csprojResolveAssemblyReference.cache
 C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.frmEjemplos.resources
 C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.Properties.Resources.resources
 C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.csproj.GenerateResource.Cache
-C:\FacturacionModernaCSharp - copia\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.exe.config
-C:\FacturacionModernaCSharp - copia\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.exe
-C:\FacturacionModernaCSharp - copia\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.pdb
-C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.csprojResolveAssemblyReference.cache
+C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.exe
+C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.pdb

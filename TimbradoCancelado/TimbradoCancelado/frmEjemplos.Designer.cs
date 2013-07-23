@@ -60,7 +60,7 @@
             this.txtUUID.Name = "txtUUID";
             this.txtUUID.Size = new System.Drawing.Size(371, 20);
             this.txtUUID.TabIndex = 2;
-            this.txtUUID.Text = "AF7D5463-C8D5-4395-9D5D-95356A2F36E9";
+            this.txtUUID.Text = "39DEC2FF-405E-4EB3-A94D-A838AEBD0762";
             // 
             // cmdCancelarUUID
             // 

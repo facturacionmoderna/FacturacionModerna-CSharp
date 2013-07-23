@@ -41,7 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="openssl.cs" />
-    <Compile Include="Sello.cs" />
+    <Compile Include="Resultados.cs" />
+    <Compile Include="Comprobante.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
