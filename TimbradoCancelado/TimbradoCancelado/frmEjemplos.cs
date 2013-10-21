@@ -145,29 +145,29 @@ namespace TimbradoCancelado
                 MessageBox.Show(r_wsconect.message);
                 Close();
             }
-            FileStream stream = new FileStream(path + "\\" + r_wsconect.uuid + ".xml", FileMode.Create, FileAccess.Write);
-            StreamWriter writer = new StreamWriter(stream);
-            writer.WriteLine(Convert.FromBase64String(r_wsconect.xmlBase64));
-            writer.Close();
+            byte[] byteXML = System.Convert.FromBase64String(r_wsconect.xmlBase64);
+            System.IO.FileStream swxml = new System.IO.FileStream((path + ("\\" + (r_wsconect.uuid + ".xml"))), System.IO.FileMode.Create);
+            swxml.Write(byteXML, 0, byteXML.Length);
+            swxml.Close();
             if (reqt.generarCBB) {
-                FileStream streamcbb = new FileStream(path + "\\" + r_wsconect.uuid + ".png", FileMode.Create, FileAccess.Write);
-                StreamWriter writercbb = new StreamWriter(streamcbb);
-                writercbb.WriteLine(Convert.FromBase64String(r_wsconect.cbbBase64));
-                writercbb.Close();
+                byte[] byteCBB = System.Convert.FromBase64String(r_wsconect.cbbBase64);
+                System.IO.FileStream swcbb = new System.IO.FileStream((path + ("\\" + (r_wsconect.uuid + ".png"))), System.IO.FileMode.Create);
+                swcbb.Write(byteCBB, 0, byteCBB.Length);
+                swcbb.Close();
             }
             if (reqt.generarPDF)
             {
-                FileStream streampdf = new FileStream(path + "\\" + r_wsconect.uuid + ".pdf", FileMode.Create, FileAccess.Write);
-                StreamWriter writerpdf = new StreamWriter(streampdf);
-                writerpdf.WriteLine(Convert.FromBase64String(r_wsconect.pdfBase64));
-                writerpdf.Close();
+                byte[] bytePDF = System.Convert.FromBase64String(r_wsconect.pdfBase64);
+                System.IO.FileStream swpdf = new System.IO.FileStream((path + ("\\" + (r_wsconect.uuid + ".pdf"))), System.IO.FileMode.Create);
+                swpdf.Write(bytePDF, 0, bytePDF.Length);
+                swpdf.Close();
             }
             if (reqt.generarTXT)
             {
-                FileStream streamtxt = new FileStream(path + "\\" + r_wsconect.uuid + ".txt", FileMode.Create, FileAccess.Write);
-                StreamWriter writertxt = new StreamWriter(streamtxt);
-                writertxt.WriteLine(Convert.FromBase64String(r_wsconect.txtBase64));
-                writertxt.Close();
+                byte[] byteTXT = System.Convert.FromBase64String(r_wsconect.txtBase64);
+                System.IO.FileStream swtxt = new System.IO.FileStream((path + ("\\" + (r_wsconect.uuid + ".txt"))), System.IO.FileMode.Create);
+                swtxt.Write(byteTXT, 0, byteTXT.Length);
+                swtxt.Close();
             }
 
             MessageBox.Show("Comprobante guardado en "+ path + "\\");
