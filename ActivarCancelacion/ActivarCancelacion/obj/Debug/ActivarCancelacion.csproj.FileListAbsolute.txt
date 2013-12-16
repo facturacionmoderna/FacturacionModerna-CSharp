@@ -1,0 +1,11 @@
+C:\FacturacionModernaCSharp\ActivarCancelacion\ActivarCancelacion\bin\Debug\ActivarCancelacion.exe.config
+C:\FacturacionModernaCSharp\ActivarCancelacion\ActivarCancelacion\obj\Debug\ActivarCancelacion.csprojResolveAssemblyReference.cache
+C:\FacturacionModernaCSharp\ActivarCancelacion\ActivarCancelacion\obj\Debug\ActivarCancelacion.Form1.resources
+C:\FacturacionModernaCSharp\ActivarCancelacion\ActivarCancelacion\obj\Debug\ActivarCancelacion.Properties.Resources.resources
+C:\FacturacionModernaCSharp\ActivarCancelacion\ActivarCancelacion\obj\Debug\ActivarCancelacion.csproj.GenerateResource.Cache
+C:\FacturacionModernaCSharp\ActivarCancelacion\ActivarCancelacion\bin\Debug\ActivarCancelacion.exe
+C:\FacturacionModernaCSharp\ActivarCancelacion\ActivarCancelacion\bin\Debug\ActivarCancelacion.pdb
+C:\FacturacionModernaCSharp\ActivarCancelacion\ActivarCancelacion\bin\Debug\WSConecFM.dll
+C:\FacturacionModernaCSharp\ActivarCancelacion\ActivarCancelacion\bin\Debug\WSConecFM.pdb
+C:\FacturacionModernaCSharp\ActivarCancelacion\ActivarCancelacion\obj\Debug\ActivarCancelacion.exe
+C:\FacturacionModernaCSharp\ActivarCancelacion\ActivarCancelacion\obj\Debug\ActivarCancelacion.pdb

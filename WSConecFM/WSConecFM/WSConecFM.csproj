@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="activarCancelacion.cs" />
     <Compile Include="requestCancelado.cs" />
     <Compile Include="requestTimbrado.cs" />
     <Compile Include="Resultados.cs" />

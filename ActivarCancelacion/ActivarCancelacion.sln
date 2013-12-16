@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivarCancelacion", "ActivarCancelacion\ActivarCancelacion.csproj", "{00E95463-7108-415A-8CA7-2224A107B1EC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{00E95463-7108-415A-8CA7-2224A107B1EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00E95463-7108-415A-8CA7-2224A107B1EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00E95463-7108-415A-8CA7-2224A107B1EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00E95463-7108-415A-8CA7-2224A107B1EC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

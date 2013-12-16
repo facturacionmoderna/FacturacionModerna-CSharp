@@ -33,6 +33,12 @@ namespace TimbradoCancelado
         /// </summary>
         private void cmdTimbraXML_Click(object sender, EventArgs e)
         {
+            /*
+              * * Puedes encontrar más ejemplos y documentación sobre estos archivos aquí. (Factura, Nota de Crédito, Recibo de Nómina y más...)
+              * * Link: https://github.com/facturacionmoderna/Comprobantes
+              * * Nota: Si deseas información adicional contactanos en www.facturacionmoderna.com
+            */
+
             // Especificación de rutas especificas
             string keyfile = "C:\\FacturacionModernaCSharp\\utilerias\\certificados\\20001000000200000192.key";
             string certfile = "C:\\FacturacionModernaCSharp\\utilerias\\certificados\\20001000000200000192.cer";
@@ -99,9 +105,6 @@ namespace TimbradoCancelado
              * *    4.- Numero de certificado
              * Retorna el XML en r_comprobante.message
             */
-            StreamReader objReader = new StreamReader(xmlfile, Encoding.UTF8);
-            xmlfile = objReader.ReadToEnd();
-            objReader.Close();
             r_comprobante = sello.agregaSello(xmlfile, str_sello, cert_b64, cert_No);
             if (!r_comprobante.status)
             {
@@ -205,6 +208,12 @@ namespace TimbradoCancelado
         /// </summary>
         private void cmdTimbrarL_Click(object sender, EventArgs e)
         {
+            /*
+              * * Puedes encontrar más ejemplos y documentación sobre estos archivos aquí. (Factura, Nota de Crédito, Recibo de Nómina y más...)
+              * * Link: https://github.com/facturacionmoderna/Comprobantes
+              * * Nota: Si deseas información adicional contactanos en www.facturacionmoderna.com
+            */
+
             Cursor.Current = Cursors.WaitCursor;
             string layoutFile = txtLayout.Text;
             string path = "C:\\FacturacionModernaCSharp\\resultados";
@@ -215,12 +224,38 @@ namespace TimbradoCancelado
 
             Timbrado timbra = new Timbrado();
             r_wsconect = timbra.Timbrar(layoutFile, reqt);
-            FileStream stream = new FileStream(path + "\\" + r_wsconect.uuid + ".xml", FileMode.Create, FileAccess.Write);
-            StreamWriter writer = new StreamWriter(stream);
-            writer.WriteLine(Convert.FromBase64String(r_wsconect.xmlBase64));
-            writer.Close();
-            MessageBox.Show("Comprobante guardado en " + path + "\\");
+            if (!r_wsconect.status)
+            {
+                MessageBox.Show(r_wsconect.message);
+                Close();
+            }
+            byte[] byteXML = System.Convert.FromBase64String(r_wsconect.xmlBase64);
+            System.IO.FileStream swxml = new System.IO.FileStream((path + ("\\" + (r_wsconect.uuid + ".xml"))), System.IO.FileMode.Create);
+            swxml.Write(byteXML, 0, byteXML.Length);
+            swxml.Close();
+            if (reqt.generarCBB)
+            {
+                byte[] byteCBB = System.Convert.FromBase64String(r_wsconect.cbbBase64);
+                System.IO.FileStream swcbb = new System.IO.FileStream((path + ("\\" + (r_wsconect.uuid + ".png"))), System.IO.FileMode.Create);
+                swcbb.Write(byteCBB, 0, byteCBB.Length);
+                swcbb.Close();
+            }
+            if (reqt.generarPDF)
+            {
+                byte[] bytePDF = System.Convert.FromBase64String(r_wsconect.pdfBase64);
+                System.IO.FileStream swpdf = new System.IO.FileStream((path + ("\\" + (r_wsconect.uuid + ".pdf"))), System.IO.FileMode.Create);
+                swpdf.Write(bytePDF, 0, bytePDF.Length);
+                swpdf.Close();
+            }
+            if (reqt.generarTXT)
+            {
+                byte[] byteTXT = System.Convert.FromBase64String(r_wsconect.txtBase64);
+                System.IO.FileStream swtxt = new System.IO.FileStream((path + ("\\" + (r_wsconect.uuid + ".txt"))), System.IO.FileMode.Create);
+                swtxt.Write(byteTXT, 0, byteTXT.Length);
+                swtxt.Close();
+            }
 
+            MessageBox.Show("Comprobante guardado en " + path + "\\");
             Cursor.Current = Cursors.Default;
             Close();
         }

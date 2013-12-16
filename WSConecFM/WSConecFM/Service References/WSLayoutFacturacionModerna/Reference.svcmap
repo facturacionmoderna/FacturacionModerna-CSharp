@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="0a257983-2418-426f-aa4f-0c7bbe70d016" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="0ffe871a-4af2-4232-985a-f44b3e90391c" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,7 +22,7 @@
     <MetadataSource Address="https://t1demo.facturacionmoderna.com/timbrado/wsdl" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="Timbrado_Manager.wsdl" MetadataType="Wsdl" ID="d6db9bbf-6cd6-41ad-ad88-85aa1555b410" SourceId="1" SourceUrl="https://t1demo.facturacionmoderna.com/timbrado/wsdl" />
+    <MetadataFile FileName="Timbrado_Manager.wsdl" MetadataType="Wsdl" ID="bffe6002-1638-4b87-947f-2f4d1c68df47" SourceId="1" SourceUrl="https://t1demo.facturacionmoderna.com/timbrado/wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

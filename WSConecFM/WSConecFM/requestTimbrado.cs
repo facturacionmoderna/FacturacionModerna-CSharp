@@ -25,7 +25,7 @@ namespace WSConecFM
             this.UserPass = "b9ec2afa3361a59af4b4d102d3f704eabdf097d4";
             this.emisorRFC = "ESI920427886";
             this.generarCBB = false;
-            this.generarPDF = false;
+            this.generarPDF = true;
             this.generarTXT = false;
             this.urlTimbrado = "https://t1demo.facturacionmoderna.com/timbrado/soap";
         }

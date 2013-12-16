@@ -8,6 +8,10 @@ using System.Collections;
 using System.Xml;
 using System.ServiceModel;
 using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
+
 
 namespace WSConecFM
 {
@@ -257,6 +261,130 @@ namespace WSConecFM
                     XmlElement xmlElementMsg = (XmlElement)xmlDoc.GetElementsByTagName("Message").Item(0);
                     result.message = xmlElementMsg.InnerText;
                     result.code = "C000";
+                    result.status = true;
+                    return result;
+                }
+                else
+                {
+                    result.code = "C00N";
+                    result.message = "El servicio de Cancelado respondio con NULL";
+                    result.status = false;
+                    return result;
+                }
+            }
+            catch (Exception e)
+            {
+                result.code = "" + e.HResult + "";
+                result.message = "Error: " + e.Message;
+                result.status = false;
+                return result;
+            }
+        }
+
+        private void setBinding(BasicHttpBinding binding)
+        {
+            // Crear archivo app.config de forma manual
+            binding.Name = "Timbrado_ManagerBinding";
+            binding.CloseTimeout = System.TimeSpan.Parse("00:01:00");
+            binding.OpenTimeout = System.TimeSpan.Parse("00:01:00");
+            binding.ReceiveTimeout = System.TimeSpan.Parse("00:10:00");
+            binding.SendTimeout = System.TimeSpan.Parse("00:01:00");
+            binding.AllowCookies = false;
+            binding.BypassProxyOnLocal = false;
+            binding.HostNameComparisonMode = System.ServiceModel.HostNameComparisonMode.StrongWildcard;
+            binding.MaxBufferSize = 65536;
+            binding.MaxBufferPoolSize = 524288;
+            binding.MaxReceivedMessageSize = 65536;
+            binding.MessageEncoding = System.ServiceModel.WSMessageEncoding.Text;
+            binding.TextEncoding = System.Text.Encoding.UTF8;
+            binding.TransferMode = System.ServiceModel.TransferMode.Buffered;
+            binding.UseDefaultWebProxy = true;
+            binding.ReaderQuotas.MaxDepth = 32;
+            binding.ReaderQuotas.MaxStringContentLength = 8192;
+            binding.ReaderQuotas.MaxArrayLength = 16384;
+            binding.ReaderQuotas.MaxBytesPerRead = 4096;
+            binding.ReaderQuotas.MaxNameTableCharCount = 16384;
+            binding.Security.Mode = System.ServiceModel.BasicHttpSecurityMode.Transport;
+            binding.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
+            binding.Security.Transport.ProxyCredentialType = HttpProxyCredentialType.None;
+            binding.Security.Transport.Realm = "";
+            binding.Security.Message.ClientCredentialType = BasicHttpMessageCredentialType.UserName;
+            binding.Security.Message.AlgorithmSuite = System.ServiceModel.Security.SecurityAlgorithmSuite.Default;
+        }
+    }
+
+    public class ActivarCancelado
+    {
+        public Resultados Activacion(WSConecFM.activarCancelacion activarCancelacion)
+        {
+            Resultados result = new Resultados();
+            string cer = activarCancelacion.archivoCer;
+            string key = activarCancelacion.archivoKey;
+            string clv = activarCancelacion.clave;
+            try
+            {
+                if (File.Exists(cer))
+                {
+                    X509Certificate2 cert = new X509Certificate2(cer);
+                    cer = Convert.ToBase64String(cert.Export(X509ContentType.Cert), Base64FormattingOptions.InsertLineBreaks);
+                    cer = cer.Replace("\n", "");
+                } else 
+                    // Codificar a base 64 el contenido del certificado
+                    cer = Convert.ToBase64String(Encoding.UTF8.GetBytes(cer));
+                // Agregar el certificado codificado en base64 a la peticion SOAP
+                activarCancelacion.archivoCer = cer;
+
+                if (File.Exists(key))
+                {
+                    byte[] llavePrivadaBytes = System.IO.File.ReadAllBytes(@key);
+                    key = Convert.ToBase64String(llavePrivadaBytes);
+
+                } else
+                    // Codificar a base 64 el contenido del archivo  key
+                    key = Convert.ToBase64String(Encoding.UTF8.GetBytes(key));
+                // Agregar el certificado codificado en base64 a la peticion SOAP
+                activarCancelacion.archivoKey = key;
+
+                //  Conexion con el WS de Facturacion Moderna
+                BasicHttpBinding binding = new BasicHttpBinding();
+                setBinding(binding);
+
+                // Direccion del servicio SOAP de Prueba
+                EndpointAddress endpoint = new EndpointAddress(activarCancelacion.urlActivarCancelacion);
+
+                // Crear instancia al servisio SOAP de cancelado
+                WSLayoutFacturacionModerna.Timbrado_ManagerPort WSFModerna = new WSLayoutFacturacionModerna.Timbrado_ManagerPortClient(binding, endpoint);
+
+                // Ejecutar servicio de Cancelado
+                Object response = WSFModerna.activarCancelacion(activarCancelacion);
+                if (response != null)
+                {
+                    XmlDocument xmlDoc = new XmlDocument();
+                    XmlDeclaration xmlDeclaration;
+                    XmlElement xmlElementBody;
+                    xmlDeclaration = xmlDoc.CreateXmlDeclaration("1.0", "uft-8", "no");
+                    xmlElementBody = xmlDoc.CreateElement("Container");
+                    xmlDoc.InsertBefore(xmlElementBody, xmlDoc.DocumentElement);
+                    XmlElement xmlParentNode;
+                    xmlParentNode = xmlDoc.CreateElement("responseSoap");
+                    xmlDoc.DocumentElement.PrependChild(xmlParentNode);
+                    XmlNode[] nodosXmlResponse = (XmlNode[])response;
+                    foreach (XmlNode nodo in nodosXmlResponse)
+                    {
+                        if (nodo.InnerText.Length >= 1)
+                        {
+                            XmlElement xmlElemetResponse;
+                            xmlElemetResponse = xmlDoc.CreateElement(nodo.Name.ToString());
+                            XmlText xmlTextNode;
+                            xmlTextNode = xmlDoc.CreateTextNode(nodo.InnerText.ToString());
+                            xmlParentNode.AppendChild(xmlElemetResponse);
+                            xmlElemetResponse.AppendChild(xmlTextNode);
+                        }
+                    }
+                    XmlElement xmlElementMsg = (XmlElement)xmlDoc.GetElementsByTagName("mensaje").Item(0);
+                    XmlElement xmlElementCode = (XmlElement)xmlDoc.GetElementsByTagName("codigo").Item(0);
+                    result.message = xmlElementMsg.InnerText;
+                    result.code = xmlElementCode.InnerText;
                     result.status = true;
                     return result;
                 }
