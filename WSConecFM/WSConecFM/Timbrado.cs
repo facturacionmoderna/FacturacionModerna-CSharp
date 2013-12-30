@@ -292,9 +292,9 @@ namespace WSConecFM
             binding.AllowCookies = false;
             binding.BypassProxyOnLocal = false;
             binding.HostNameComparisonMode = System.ServiceModel.HostNameComparisonMode.StrongWildcard;
-            binding.MaxBufferSize = 65536;
+            binding.MaxBufferSize = 524288;
             binding.MaxBufferPoolSize = 524288;
-            binding.MaxReceivedMessageSize = 65536;
+            binding.MaxReceivedMessageSize = 524288;
             binding.MessageEncoding = System.ServiceModel.WSMessageEncoding.Text;
             binding.TextEncoding = System.Text.Encoding.UTF8;
             binding.TransferMode = System.ServiceModel.TransferMode.Buffered;
@@ -416,9 +416,9 @@ namespace WSConecFM
             binding.AllowCookies = false;
             binding.BypassProxyOnLocal = false;
             binding.HostNameComparisonMode = System.ServiceModel.HostNameComparisonMode.StrongWildcard;
-            binding.MaxBufferSize = 65536;
+            binding.MaxBufferSize = 524288;
             binding.MaxBufferPoolSize = 524288;
-            binding.MaxReceivedMessageSize = 65536;
+            binding.MaxReceivedMessageSize = 524288;
             binding.MessageEncoding = System.ServiceModel.WSMessageEncoding.Text;
             binding.TextEncoding = System.Text.Encoding.UTF8;
             binding.TransferMode = System.ServiceModel.TransferMode.Buffered;
