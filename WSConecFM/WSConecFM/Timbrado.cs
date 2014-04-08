@@ -90,35 +90,11 @@ namespace WSConecFM
 
                     result.xmlBase64 = xmlElementCFDI.InnerText;
 
-                    //FileStream stream = new FileStream(pathFile + "\\" + uuid + ".xml", FileMode.Create); 
-                    //BinaryWriter writerBinary = new BinaryWriter(stream);
-                    //writerBinary.Write(Convert.FromBase64String(xmlElementCFDI.InnerText));
-                    //writerBinary.Close();
-                    //if (!File.Exists(pathFile + "\\" + uuid + ".xml"))
-                    //{
-                    //    result.code = "T000";
-                    //    result.message = "Error: El comprobante en XML no se pudo escribir en " + pathFile + "\\" + uuid + ".xml";
-                    //    result.status = false;
-                    //    return result;
-                    //}
-
                     //-->>Representación impresa del CFDI en formato PDF
                     if (RequestTimbrarCFDI.generarPDF) 
                     {
                         XmlElement xmlElementPDF = (XmlElement)xmlDoc.GetElementsByTagName("pdf").Item(0);
                         result.pdfBase64 = xmlElementPDF.InnerText;
-                        ////-->>Almacenamiento del Comprobante en PDF
-                        //stream = new FileStream(pathFile + "\\" + uuid + ".pdf", FileMode.Create);
-                        //writerBinary = new BinaryWriter(stream);
-                        //writerBinary.Write(Convert.FromBase64String(xmlElementPDF.InnerText));
-                        //writerBinary.Close();
-                        //if (!File.Exists(pathFile + "\\" + uuid + ".pdf"))
-                        //{
-                        //    result.code = "T001";
-                        //    result.message = "Error: El comprobante en PDF no se pudo escribir en " + pathFile + "\\" + uuid + ".pdf";
-                        //    result.status = false;
-                        //    return result;
-                        //}
                     }
 
                     //-->>Representación impresa del CFDI en formato TXT
@@ -126,18 +102,6 @@ namespace WSConecFM
                     {
                         XmlElement xmlElementTXT = (XmlElement)xmlDoc.GetElementsByTagName("txt").Item(0);
                         result.txtBase64 = xmlElementTXT.InnerText;
-                        //-->>Almacenamiento del Comprobante en PDF
-                        //stream = new FileStream(pathFile + "\\" + uuid + ".txt", FileMode.Create);
-                        //writerBinary = new BinaryWriter(stream);
-                        //writerBinary.Write(Convert.FromBase64String(xmlElementTXT.InnerText));
-                        //writerBinary.Close();
-                        //if (!File.Exists(pathFile + "\\" + uuid + ".txt"))
-                        //{
-                        //    result.code = "T002";
-                        //    result.message = "Error: El comprobante en TXT no se pudo escribir en " + pathFile + "\\" + uuid + ".txt";
-                        //    result.status = false;
-                        //    return result;
-                        //}
                     }
 
                     //-->>Representación impresa del CFDI en formato PNG
@@ -145,18 +109,6 @@ namespace WSConecFM
                     {
                         XmlElement xmlElementCBB = (XmlElement)xmlDoc.GetElementsByTagName("png").Item(0);
                         result.cbbBase64 = xmlElementCBB.InnerText;
-                        ////-->>Almacenamiento del Comprobante en PNG
-                        //stream = new FileStream(pathFile + "\\" + uuid + ".png", FileMode.Create);
-                        //writerBinary = new BinaryWriter(stream);
-                        //writerBinary.Write(Convert.FromBase64String(xmlElementCBB.InnerText));
-                        //writerBinary.Close();
-                        //if (!File.Exists(pathFile + "\\" + uuid + ".png"))
-                        //{
-                        //    result.code = "T003";
-                        //    result.message = "Error: El comprobante en PNG no se pudo escribir en " + pathFile + "\\" + uuid + ".png";
-                        //    result.status = false;
-                        //    return result;
-                        //}
                     }
                     result.code = "T000";
                     result.message = "Comprobante Generado con exito";
@@ -188,7 +140,7 @@ namespace WSConecFM
             binding.OpenTimeout = System.TimeSpan.Parse("00:01:00");
             binding.ReceiveTimeout = System.TimeSpan.Parse("00:10:00");
             binding.SendTimeout = System.TimeSpan.Parse("00:01:00");
-            binding.AllowCookies = false;
+            binding.AllowCookies = true;
             binding.BypassProxyOnLocal = false;
             binding.HostNameComparisonMode = System.ServiceModel.HostNameComparisonMode.StrongWildcard;
             binding.MaxBufferSize = 524288;
@@ -289,7 +241,7 @@ namespace WSConecFM
             binding.OpenTimeout = System.TimeSpan.Parse("00:01:00");
             binding.ReceiveTimeout = System.TimeSpan.Parse("00:10:00");
             binding.SendTimeout = System.TimeSpan.Parse("00:01:00");
-            binding.AllowCookies = false;
+            binding.AllowCookies = true;
             binding.BypassProxyOnLocal = false;
             binding.HostNameComparisonMode = System.ServiceModel.HostNameComparisonMode.StrongWildcard;
             binding.MaxBufferSize = 524288;
@@ -413,7 +365,7 @@ namespace WSConecFM
             binding.OpenTimeout = System.TimeSpan.Parse("00:01:00");
             binding.ReceiveTimeout = System.TimeSpan.Parse("00:10:00");
             binding.SendTimeout = System.TimeSpan.Parse("00:01:00");
-            binding.AllowCookies = false;
+            binding.AllowCookies = true;
             binding.BypassProxyOnLocal = false;
             binding.HostNameComparisonMode = System.ServiceModel.HostNameComparisonMode.StrongWildcard;
             binding.MaxBufferSize = 524288;
