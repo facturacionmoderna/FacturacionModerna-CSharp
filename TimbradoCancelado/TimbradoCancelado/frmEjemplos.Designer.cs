@@ -52,7 +52,7 @@
             this.txtXML.Name = "txtXML";
             this.txtXML.Size = new System.Drawing.Size(371, 20);
             this.txtXML.TabIndex = 1;
-            this.txtXML.Text = "C:\\FacturacionModernaCSharp\\ejemplos\\ejemploTimbradoXML.xml";
+            this.txtXML.Text = "C:\\FacturacionModernaCSharp\\ejemplos\\CFDI.xml";
             // 
             // txtUUID
             // 

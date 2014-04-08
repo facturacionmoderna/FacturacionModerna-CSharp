@@ -10,4 +10,3 @@ C:\FacturacionModernaCSharp\Comprobante\Comprobante\bin\Debug\Comprobante.dll
 C:\FacturacionModernaCSharp\Comprobante\Comprobante\bin\Debug\Comprobante.pdb
 C:\FacturacionModernaCSharp\Comprobante\Comprobante\obj\Debug\Comprobante.dll
 C:\FacturacionModernaCSharp\Comprobante\Comprobante\obj\Debug\Comprobante.pdb
-C:\FacturacionModernaCSharp\Comprobante\Comprobante\obj\Debug\Comprobante.csprojResolveAssemblyReference.cache

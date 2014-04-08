@@ -32,7 +32,6 @@ C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\Compro
 C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\WSConecFM.dll
 C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\Comprobante.pdb
 C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\WSConecFM.pdb
-C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.csprojResolveAssemblyReference.cache
 C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.frmEjemplos.resources
 C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.Properties.Resources.resources
 C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.csproj.GenerateResource.Cache

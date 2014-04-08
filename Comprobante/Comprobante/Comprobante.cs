@@ -124,7 +124,7 @@ namespace Comprobante
                 X509Certificate2 cert = new X509Certificate2(certificado);
                 string ncert = ReverseString(Encoding.Default.GetString(cert.GetSerialNumber()));
                 string str_cert = Convert.ToBase64String(cert.Export(X509ContentType.Cert), Base64FormattingOptions.InsertLineBreaks);
-                str_cert = str_cert.Replace("\n", "");
+                str_cert = str_cert.Replace("\r\n", "");
                 result.code = "C000";
                 result.message = str_cert;
                 result.ncert = ncert;

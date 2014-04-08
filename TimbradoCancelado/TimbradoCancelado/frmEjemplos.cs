@@ -40,8 +40,8 @@ namespace TimbradoCancelado
             */
 
             // Especificación de rutas especificas
-            string keyfile = "C:\\FacturacionModernaCSharp\\utilerias\\certificados\\20001000000200000192.key";
-            string certfile = "C:\\FacturacionModernaCSharp\\utilerias\\certificados\\20001000000200000192.cer";
+            string keyfile = "C:\\FacturacionModernaCSharp\\utilerias\\certificados\\20001000000200000263.key";
+            string certfile = "C:\\FacturacionModernaCSharp\\utilerias\\certificados\\20001000000200000263.cer";
             string password = "12345678a";
             string version = "3.2";
             string xmlfile = txtXML.Text;
