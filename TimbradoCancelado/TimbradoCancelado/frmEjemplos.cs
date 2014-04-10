@@ -40,14 +40,29 @@ namespace TimbradoCancelado
             */
 
             // Especificación de rutas especificas
-            string keyfile = "C:\\FacturacionModernaCSharp\\utilerias\\certificados\\20001000000200000263.key";
-            string certfile = "C:\\FacturacionModernaCSharp\\utilerias\\certificados\\20001000000200000263.cer";
+            string keyfile = "C:\\FacturacionModernaCSharp\\utilerias\\certificados\\20001000000200000192.key";
+            string certfile = "C:\\FacturacionModernaCSharp\\utilerias\\certificados\\20001000000200000192.cer";
             string password = "12345678a";
             string version = "3.2";
             string xmlfile = txtXML.Text;
             string path = "C:\\FacturacionModernaCSharp\\resultados";
 
             Cursor.Current = Cursors.WaitCursor;
+            if (!System.IO.File.Exists(xmlfile)) {
+                MessageBox.Show("El archivo "+ xmlfile + " No existe");
+                Environment.Exit(-1);
+            }
+            if (!System.IO.File.Exists(keyfile))
+            {
+                MessageBox.Show("El archivo " + keyfile + " No existe");
+                Environment.Exit(-1);
+            }
+            if (!System.IO.File.Exists(certfile))
+            {
+                MessageBox.Show("El archivo " + certfile + " No existe");
+                Environment.Exit(-1);
+            }
+
             Comprobante.Resultados r_comprobante = new Comprobante.Resultados();
             WSConecFM.Resultados r_wsconect = new WSConecFM.Resultados();
 
@@ -62,7 +77,7 @@ namespace TimbradoCancelado
             if (!r_comprobante.status)
             {
                 MessageBox.Show(r_comprobante.message);
-                Close();
+                Environment.Exit(-1);
             }
             string cadenaO = r_comprobante.message;
 
@@ -78,7 +93,7 @@ namespace TimbradoCancelado
             if (!r_comprobante.status)
             {
                 MessageBox.Show(r_comprobante.message);
-                Close();
+                Environment.Exit(-1);
             }
             string str_sello = r_comprobante.message;
 
@@ -92,7 +107,7 @@ namespace TimbradoCancelado
             if (!r_comprobante.status)
             {
                 MessageBox.Show(r_comprobante.message);
-                Close();
+                Environment.Exit(-1);
             }
             string cert_b64 = r_comprobante.message;
             string cert_No = r_comprobante.ncert;
@@ -109,7 +124,7 @@ namespace TimbradoCancelado
             if (!r_comprobante.status)
             {
                 MessageBox.Show(r_comprobante.message);
-                Application.Exit();
+                Environment.Exit(-1);
             }
             xmlfile = r_comprobante.message;
 
@@ -146,7 +161,7 @@ namespace TimbradoCancelado
             if (!r_wsconect.status)
             {
                 MessageBox.Show(r_wsconect.message);
-                Close();
+                Environment.Exit(-1);
             }
             byte[] byteXML = System.Convert.FromBase64String(r_wsconect.xmlBase64);
             System.IO.FileStream swxml = new System.IO.FileStream((path + ("\\" + (r_wsconect.uuid + ".xml"))), System.IO.FileMode.Create);
