@@ -59,7 +59,7 @@ namespace Comprobante
             }
             catch (Exception e)
             {
-                result.code = ""+e.HResult+"";
+                result.code = "EX-001";
                 result.message = "Error: " + e.Message;
                 result.status = false;
                 return result;
@@ -108,7 +108,7 @@ namespace Comprobante
             }
             catch (Exception e)
             {
-                result.code = "" + e.HResult + "";
+                result.code = "EX-001";
                 result.message = "Error: " + e.Message;
                 result.status = false;
                 return result;
@@ -133,7 +133,7 @@ namespace Comprobante
             }
             catch (Exception e)
             {
-                result.code = "" + e.HResult + "";
+                result.code = "EX-001";
                 result.message = "Error: " + e.Message;
                 result.status = false;
                 return result;
@@ -194,7 +194,7 @@ namespace Comprobante
             }
             catch (Exception e)
             {
-                result.code = "" + e.HResult + "";
+                result.code = "EX-001";
                 result.message = "Error: " + e.Message;
                 result.status = false;
                 return result;
@@ -246,7 +246,7 @@ namespace Comprobante
             }
             catch (Exception e)
             {
-                result.code = "" + e.HResult + "";
+                result.code = "EX-001";
                 result.message = "Error: " + e.Message;
                 result.status = false;
                 return result;
