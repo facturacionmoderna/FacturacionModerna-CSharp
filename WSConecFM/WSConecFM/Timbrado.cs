@@ -46,6 +46,9 @@ namespace WSConecFM
                 // Crear instancia al servisio SOAP de Timbrado
                 WSLayoutFacturacionModerna.Timbrado_ManagerPort WSFModerna = new WSLayoutFacturacionModerna.Timbrado_ManagerPortClient(binding, endpoint);
 
+                // indicar que no deseamos esperar confirmación del server, sino que debe enviar los datos al mismo tiempo que se realiza la solicitud.
+                System.Net.ServicePointManager.Expect100Continue = false;
+
                 // Ejecutar servicio de Timbrado
                 Object objResponse = WSFModerna.requestTimbrarCFDI(RequestTimbrarCFDI);
                 

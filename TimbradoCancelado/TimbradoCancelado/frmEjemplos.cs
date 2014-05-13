@@ -242,7 +242,7 @@ namespace TimbradoCancelado
             if (!r_wsconect.status)
             {
                 MessageBox.Show(r_wsconect.message);
-                Close();
+                Environment.Exit(-1);
             }
             byte[] byteXML = System.Convert.FromBase64String(r_wsconect.xmlBase64);
             System.IO.FileStream swxml = new System.IO.FileStream((path + ("\\" + (r_wsconect.uuid + ".xml"))), System.IO.FileMode.Create);
