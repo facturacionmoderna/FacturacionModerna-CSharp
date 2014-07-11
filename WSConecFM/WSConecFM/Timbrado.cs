@@ -36,6 +36,9 @@ namespace WSConecFM
                 // Agregar el XML codificado en base64 a la peticion SOAP
                 RequestTimbrarCFDI.text2CFDI = layout;
 
+                // indicar que no deseamos esperar confirmación del server, sino que debe enviar los datos al mismo tiempo que se realiza la solicitud.
+                System.Net.ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(ValidarCertificado);
+
                 //  Conexion con el WS de Facturacion Moderna
                 BasicHttpBinding binding = new BasicHttpBinding();
                 setBinding(binding);
@@ -45,9 +48,6 @@ namespace WSConecFM
 
                 // Crear instancia al servisio SOAP de Timbrado
                 WSLayoutFacturacionModerna.Timbrado_ManagerPort WSFModerna = new WSLayoutFacturacionModerna.Timbrado_ManagerPortClient(binding, endpoint);
-
-                // indicar que no deseamos esperar confirmación del server, sino que debe enviar los datos al mismo tiempo que se realiza la solicitud.
-                System.Net.ServicePointManager.Expect100Continue = false;
 
                 // Ejecutar servicio de Timbrado
                 Object objResponse = WSFModerna.requestTimbrarCFDI(RequestTimbrarCFDI);
@@ -133,6 +133,11 @@ namespace WSConecFM
                 result.status = false;
                 return result;
             }
+        }
+
+        private Boolean ValidarCertificado(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certificate, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
+        {
+            return true;
         }
 
         private void setBinding(BasicHttpBinding binding)
