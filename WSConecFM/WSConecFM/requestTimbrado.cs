@@ -17,6 +17,10 @@ namespace WSConecFM
         public Boolean generarTXT;
         public Boolean generarPDF;
         public string urlTimbrado;
+        public string proxy_user;
+        public string proxy_pass;
+        public string proxy_url;
+        public int proxy_port;
 
         public requestTimbrarCFDI()
         {
@@ -28,6 +32,10 @@ namespace WSConecFM
             this.generarPDF = true;
             this.generarTXT = false;
             this.urlTimbrado = "https://t1demo.facturacionmoderna.com/timbrado/soap";
+            this.proxy_url = "";
+            this.proxy_pass = "";
+            this.proxy_port = 80;
+            this.proxy_user = "";
         }
     }
 }

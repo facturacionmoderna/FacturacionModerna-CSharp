@@ -38,3 +38,16 @@ C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\Timbra
 C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.exe
 C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.pdb
 C:\FacturacionModernaCSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.csprojResolveAssemblyReference.cache
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.exe.config
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.exe
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.pdb
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.exe
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.pdb
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\Comprobante.dll
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\WSConecFM.dll
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\Comprobante.pdb
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp\TimbradoCancelado\TimbradoCancelado\bin\Debug\WSConecFM.pdb
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.csprojResolveAssemblyReference.cache
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.frmEjemplos.resources
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.Properties.Resources.resources
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.csproj.GenerateResource.Cache

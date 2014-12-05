@@ -236,6 +236,10 @@ namespace TimbradoCancelado
 
             // Crear instancia, para los para metros enviados a requestTimbradoCFDI
             requestTimbrarCFDI reqt = new requestTimbrarCFDI();
+            reqt.proxy_url = "http://207.91.10.234";
+            reqt.proxy_port = 8080;
+            reqt.proxy_user = "hola";
+            reqt.proxy_pass = "hola";
 
             Timbrado timbra = new Timbrado();
             r_wsconect = timbra.Timbrar(layoutFile, reqt);

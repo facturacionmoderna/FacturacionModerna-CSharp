@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
+using System.Net;
 
 
 namespace WSConecFM
@@ -38,6 +39,14 @@ namespace WSConecFM
 
                 // indicar que no deseamos esperar confirmación del server, sino que debe enviar los datos al mismo tiempo que se realiza la solicitud.
                 System.Net.ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(ValidarCertificado);
+
+                // set this before any web requests or WCF calls
+                if (RequestTimbrarCFDI.proxy_url != "") {
+                    WebRequest.DefaultWebProxy = new WebProxy(new Uri(RequestTimbrarCFDI.proxy_url + ":" + RequestTimbrarCFDI.proxy_port))
+                    {
+                        Credentials = new NetworkCredential(RequestTimbrarCFDI.proxy_user, RequestTimbrarCFDI.proxy_pass),
+                    };
+                }
 
                 //  Conexion con el WS de Facturacion Moderna
                 BasicHttpBinding binding = new BasicHttpBinding();
@@ -149,7 +158,7 @@ namespace WSConecFM
             binding.ReceiveTimeout = System.TimeSpan.Parse("00:10:00");
             binding.SendTimeout = System.TimeSpan.Parse("00:01:00");
             binding.AllowCookies = true;
-            binding.BypassProxyOnLocal = false;
+            binding.BypassProxyOnLocal = true;
             binding.HostNameComparisonMode = System.ServiceModel.HostNameComparisonMode.StrongWildcard;
             binding.MaxBufferSize = 524288;
             binding.MaxBufferPoolSize = 524288;
@@ -181,6 +190,15 @@ namespace WSConecFM
             try
             {
                 RequestCancelarCFDI.uuid = uuid;
+
+                // set this before any web requests or WCF calls
+                if (RequestCancelarCFDI.proxy_url != "")
+                {
+                    WebRequest.DefaultWebProxy = new WebProxy(new Uri(RequestCancelarCFDI.proxy_url + ":" + RequestCancelarCFDI.proxy_port))
+                    {
+                        Credentials = new NetworkCredential(RequestCancelarCFDI.proxy_user, RequestCancelarCFDI.proxy_pass),
+                    };
+                }
 
                 //  Conexion con el WS de Facturacion Moderna
                 BasicHttpBinding binding = new BasicHttpBinding();
@@ -250,7 +268,7 @@ namespace WSConecFM
             binding.ReceiveTimeout = System.TimeSpan.Parse("00:10:00");
             binding.SendTimeout = System.TimeSpan.Parse("00:01:00");
             binding.AllowCookies = true;
-            binding.BypassProxyOnLocal = false;
+            binding.BypassProxyOnLocal = true;
             binding.HostNameComparisonMode = System.ServiceModel.HostNameComparisonMode.StrongWildcard;
             binding.MaxBufferSize = 524288;
             binding.MaxBufferPoolSize = 524288;
@@ -374,7 +392,7 @@ namespace WSConecFM
             binding.ReceiveTimeout = System.TimeSpan.Parse("00:10:00");
             binding.SendTimeout = System.TimeSpan.Parse("00:01:00");
             binding.AllowCookies = true;
-            binding.BypassProxyOnLocal = false;
+            binding.BypassProxyOnLocal = true;
             binding.HostNameComparisonMode = System.ServiceModel.HostNameComparisonMode.StrongWildcard;
             binding.MaxBufferSize = 524288;
             binding.MaxBufferPoolSize = 524288;

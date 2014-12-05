@@ -10,3 +10,9 @@ C:\FacturacionModernaCSharp\WSConecFM\WSConecFM\bin\Debug\WSConecFM.pdb
 C:\FacturacionModernaCSharp\WSConecFM\WSConecFM\obj\Debug\WSConecFM.dll
 C:\FacturacionModernaCSharp\WSConecFM\WSConecFM\obj\Debug\WSConecFM.pdb
 C:\FacturacionModernaCSharp\WSConecFM\WSConecFM\obj\Debug\WSConecFM.csprojResolveAssemblyReference.cache
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp\WSConecFM\WSConecFM\bin\Debug\WSConecFM.dll.config
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp\WSConecFM\WSConecFM\bin\Debug\WSConecFM.dll
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp\WSConecFM\WSConecFM\bin\Debug\WSConecFM.pdb
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp\WSConecFM\WSConecFM\obj\Debug\WSConecFM.csprojResolveAssemblyReference.cache
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp\WSConecFM\WSConecFM\obj\Debug\WSConecFM.dll
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp\WSConecFM\WSConecFM\obj\Debug\WSConecFM.pdb
