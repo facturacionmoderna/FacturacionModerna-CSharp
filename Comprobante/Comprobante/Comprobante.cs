@@ -14,130 +14,351 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Comprobante
 {
-    public class Cadena
+    ///<summary>
+    ///Contiene funciones para la generacion del sello del comprobante.
+    ///</summary>
+    ///<remarks>
+    ///Provee de herramientas que facilitan la generacion de la cadena orignal y sello digital,así como la extracción de 
+    ///información del certificado (número de certificado y contenido del certificado en base 64)
+    ///</remarks>
+    public class Utilidades
     {
-        public Resultados GeneraCadena(string version, string xmlFile)
+        private string originalChain;
+        private string message;
+        private string code;
+        private string digitalStamp;
+        private string certificateNumber;
+        private string certificate;
+        private string newXml;
+
+        ///<summary>
+        ///Constructor
+        ///</summary>
+        public Utilidades()
         {
-            version = version.Replace(".", "_");
-            string cadenaO = "";
-            string outputtxt = "output.txt";
-            string outputxml = "output.xml";
-            Resultados result = new Resultados();
-            string xsltFile = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\utilerias\\xslt" + version + "\\cadenaoriginal_" + version + ".xslt";
-            
+            this.originalChain = "";
+            this.message = "Cadena original creada con éxito";
+            this.code = "C-000";
+            this.digitalStamp = "";
+            this.certificateNumber = "";
+            this.certificate = "";
+            this.newXml = "";
+        }
+
+        ///<summary>
+        ///Construye la cadena original del comprobante.
+        ///</summary>
+        ///<return>
+        ///Devuelve cadena original como un string
+        ///</return>
+        ///<param name="xml">
+        ///Ruta del archivo xml en disco a leer, o xml como cadena.
+        ///</param>
+        ///<param name="xslt">
+        ///Ruta del archivo xslt en disco a leer
+        ///</param>
+        public string createOriginalChain(string xml, string xslt)
+        {
+            string currentPath = Directory.GetCurrentDirectory();
+            string newPath = Path.GetDirectoryName(xslt);
+
+            if (xml.Equals(""))
+            {
+                this.code = "XML-001";
+                this.message = "Error: El xml esta vacio o no existe el archivo";
+                return this.originalChain;
+            }
+
+            if (!System.IO.File.Exists(xslt))
+            {
+                this.code = "XSLT-001";
+                this.message = "Error: No se encuentra el xslt en la ruta " + xslt;
+                return this.originalChain;
+            }
+
             try
             {
-                if (! File.Exists(xmlFile))
+                StreamReader objReader = new StreamReader(xslt, Encoding.UTF8);
+                xslt = objReader.ReadToEnd();
+                objReader.Close();
+
+                if (File.Exists(xml))
                 {
-                    FileStream stream = new FileStream(outputxml, FileMode.Create, FileAccess.Write);
-                    StreamWriter writer = new StreamWriter(stream);
-                    writer.WriteLine(xmlFile);
-                    writer.Close();
-                    xmlFile = outputxml;
+                    StreamReader objReader2 = new StreamReader(xml, Encoding.UTF8);
+                    xml = objReader2.ReadToEnd();
+                    objReader2.Close();
                 }
-                XslCompiledTransform xsltDoc = new XslCompiledTransform(true);
-                xsltDoc.Load(xsltFile);
-                xsltDoc.Transform(xmlFile, outputtxt);
-                
-                if (File.Exists(outputtxt))
+
+                string output = String.Empty;
+                using (StringReader srt = new StringReader(xslt))
+                using (StringReader sri = new StringReader(xml))
                 {
-                    StreamReader objReader = new StreamReader(outputtxt, Encoding.UTF8);
-                    cadenaO = objReader.ReadToEnd();
-                    objReader.Close();
-                    result.code = "C000";
-                    result.message = cadenaO;
-                    result.status = true;
-                    return result;
+                    using (XmlReader xrt = XmlReader.Create(srt))
+                    using (XmlReader xri = XmlReader.Create(sri))
+                    {
+                        Environment.CurrentDirectory = (newPath);
+                        XslCompiledTransform xsltT = new XslCompiledTransform();
+                        xsltT.Load(xrt);
+                        using (StringWriter sw = new StringWriter())
+                        using (XmlWriter xwo = XmlWriter.Create(sw, xsltT.OutputSettings))
+                        {
+                            xsltT.Transform(xri, xwo);
+                            output = sw.ToString();
+                            this.originalChain = output;
+                            this.code = "S-001";
+                        }
+                        Environment.CurrentDirectory = (currentPath);
+
+                        if (this.originalChain.Equals("|||"))
+                        {
+                            this.code = "E-0003";
+                            this.message = "Error al generar la cadena original";
+                        }
+                    }
                 }
-                else
+
+                if (this.originalChain.Equals(""))
                 {
-                    result.code = "C001";
-                    result.message = "Error: No se creo la cadena original, Vuelva a intentarlo";
-                    result.status = false;
-                    return result;
+                    this.code = "E-0001";
+                    this.message = "Error al generar la cadena original";
                 }
             }
             catch (Exception e)
             {
-                result.code = "EX-001";
-                result.message = "Error: " + e.Message;
-                result.status = false;
-                return result;
+                this.code = "EXCEPTION-0001";
+                this.message = "Error: " + e.Message;
             }
+            /* Regresar cadena original */
+            return this.originalChain;
         }
-    }
 
-    public class Sello
-    {
-        public Resultados GeneraSello(string keyfile, string password, string originalchain)
+        ///<summary>
+        ///Genera el sello del comprobante.
+        ///</summary>
+        ///<return>
+        ///Devuelve sello del comprobante como un string
+        ///</return>
+        ///<param name="keyfile">
+        ///Ruta del archivo .key en disco a leer.
+        ///</param>
+        ///<param name="password">
+        ///Contraseña del archivo .key, en string
+        ///</param>
+        ///<param name="originalChain">
+        ///Cadena original del comprobante en cadena, o bien la ruta del archivo a leer en disco
+        ///</param>
+        public string createDigitalStamp(string keyfile, string password, string originalChain)
         {
-            Resultados result = new Resultados();
+            if (password.Equals(""))
+            {
+                this.code = "PASS-001";
+                this.message = "Error: Contraseña vacia";
+                return this.digitalStamp;
+            }
+            if (!System.IO.File.Exists(keyfile))
+            {
+                this.code = "KEY-001";
+                this.message = "Error: No se encuentra el archivo key en la ruta " + keyfile;
+                return this.digitalStamp;
+            }
+            if (originalChain.Equals(""))
+            {
+                this.code = "CHAIN-001";
+                this.message = "Error: Cadena original vacia";
+                return this.digitalStamp;
+            }
 
             try
             {
                 string strSello = "";
                 string strPathLlave = @keyfile;
                 string strLlavePwd = password;
-                if (File.Exists(originalchain))
+                if (File.Exists(originalChain))
                 {
-                    StreamReader objReader = new StreamReader(originalchain, Encoding.UTF8);
-                    originalchain = objReader.ReadToEnd();
+                    StreamReader objReader = new StreamReader(originalChain, Encoding.UTF8);
+                    originalChain = objReader.ReadToEnd();
                     objReader.Close();
                 }
-                string strCadenaOriginal = originalchain;
+                string strCadenaOriginal = originalChain;
                 System.Security.SecureString passwordSeguro = new System.Security.SecureString();
                 passwordSeguro.Clear();
                 foreach (char c in strLlavePwd.ToCharArray())
-                passwordSeguro.AppendChar(c);
+                    passwordSeguro.AppendChar(c);
                 byte[] llavePrivadaBytes = System.IO.File.ReadAllBytes(strPathLlave);
                 RSACryptoServiceProvider rsa = opensslkey.DecodeEncryptedPrivateKeyInfo(llavePrivadaBytes, passwordSeguro);
                 SHA1CryptoServiceProvider hasher = new SHA1CryptoServiceProvider();
-                byte[] bytesFirmados = rsa.SignData(System.Text.Encoding.UTF8.GetBytes(originalchain), hasher);
+                byte[] bytesFirmados = rsa.SignData(System.Text.Encoding.UTF8.GetBytes(originalChain), hasher);
                 strSello = Convert.ToBase64String(bytesFirmados);
                 if (strSello == "")
                 {
-                    result.code = "S000";
-                    result.message = "Error: El sello esta vacio";
-                    result.status = false;
-                    return result;
+                    this.code = "E-0001";
+                    this.message = "Error: El sello esta vacio";
                 }
-                result.code = "S001";
-                result.message = strSello;
-                result.status = true;
-                return result;
+                this.code = "S-0001";
+                this.digitalStamp = strSello;
+                this.message = "Sello del comprobante creado con éxito";
             }
             catch (Exception e)
             {
-                result.code = "EX-001";
-                result.message = "Error: " + e.Message;
-                result.status = false;
-                return result;
+                this.code = "EXCEPTION-0001";
+                this.message = "Error: " + e.Message;
             }
+
+            return this.digitalStamp;
         }
 
-        public Resultados obtenCertificado(string certificado)
+        ///<summary>
+        ///Obtiene el numero de certificado y certificado codificado en base 64.
+        ///</summary>
+        ///<return>
+        ///Devueve true, cuando es exitoso, false cuando ocurre algun error, la información la almacena en las variables 
+        ///privadas certificadeNumber y certificate, las cuales son accedidas  por los metodos get
+        ///</return>
+        ///<param name="certificate">
+        ///Ruta del archivo .cer en disco a leer.
+        ///</param>
+        public Boolean getInfoCertificate(string certificate)
         {
-            Resultados result = new Resultados();
-
             try
             {
-                X509Certificate2 cert = new X509Certificate2(certificado);
+                X509Certificate2 cert = new X509Certificate2(certificate);
                 string ncert = ReverseString(Encoding.Default.GetString(cert.GetSerialNumber()));
                 string str_cert = Convert.ToBase64String(cert.Export(X509ContentType.Cert), Base64FormattingOptions.InsertLineBreaks);
                 str_cert = str_cert.Replace("\r\n", "");
-                result.code = "C000";
-                result.message = str_cert;
-                result.ncert = ncert;
-                result.status = true;
-                return result;
+                this.code = "CERT-0001";
+                this.message = "Número de certificado obtenido con éxito";
+                this.certificateNumber = ncert;
+                this.certificate = str_cert;
             }
             catch (Exception e)
             {
-                result.code = "EX-001";
-                result.message = "Error: " + e.Message;
-                result.status = false;
-                return result;
+                this.code = "EX-001";
+                this.message = "Error: " + e.Message;
+                return false;
             }
+            return true;
+        }
+
+        ///<summary>
+        ///Agrega el certificado y numero de certificado al archivo xml del comprobante.
+        ///</summary>
+        ///<return>
+        ///Devuelve cadena con el nuevo xml
+        ///</return>
+        ///<param name="xmlfile">
+        ///Rutal del archivo xml en disco, o bien string del xml, al que se le agregará los elementos.
+        ///</param>
+        ///<param name="certificate">
+        ///String que contiene el certificado (cadena)
+        ///</param>
+        ///<param name="certificateNumber">
+        ///String que contiene el numero de certificado (cadena)
+        ///</param>
+        public string addDigitalStamp(string xmlfile, string certificate, string certificateNumber)
+        {
+            try
+            {
+                if (File.Exists(xmlfile))
+                {
+                    StreamReader objReader = new StreamReader(xmlfile, Encoding.UTF8);
+                    xmlfile = objReader.ReadToEnd();
+                    objReader.Close();
+                }
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.LoadXml(xmlfile);
+
+                XmlNodeList xmlNodoLista = xmlDoc.GetElementsByTagName("cfdi:Comprobante");
+                foreach (XmlNode nodo in xmlNodoLista)
+                {
+                    nodo.SelectSingleNode("@certificado").InnerText = certificate;
+                    nodo.SelectSingleNode("@noCertificado").InnerText = certificateNumber;
+                }
+
+                XmlNodeList xmlNodoLista2 = xmlDoc.GetElementsByTagName("retenciones:Retenciones");
+                foreach (XmlNode nodo in xmlNodoLista2)
+                {
+                    nodo.SelectSingleNode("@Cert").InnerText = certificate;
+                    nodo.SelectSingleNode("@NumCert").InnerText = certificateNumber;
+                }
+
+                this.code = "C-00005";
+                this.message = "Archivo xml modificado con exito, se agregó información del certificado";
+                this.newXml = xmlDoc.InnerXml;
+            }
+            catch (Exception e)
+            {
+                this.code = "EX-001";
+                this.message = "Error: " + e.Message;
+            }
+            return this.newXml;
+        }
+
+
+        ///<summary>
+        ///Agrega el sello al xml del comprobante.
+        ///</summary>
+        ///<return>
+        ///Devuelve cadena con el nuevo xml
+        ///</return>
+        ///<param name="xmlfile">
+        ///Rutal del archivo xml en disco, o bien string del xml, al que se le agregará el sello.
+        ///</param>
+        ///<param name="digitalStamp">
+        ///String que contiene el sello del comprobante (cadena)
+        ///</param>
+        public string addDigitalStamp(string xmlfile, string digitalStamp)
+        {
+            this.newXml = "";
+            try
+            {
+                if (File.Exists(xmlfile))
+                {
+                    StreamReader objReader = new StreamReader(xmlfile, Encoding.UTF8);
+                    xmlfile = objReader.ReadToEnd();
+                    objReader.Close();
+                }
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.LoadXml(xmlfile);
+
+                XmlNodeList xmlNodoLista = xmlDoc.GetElementsByTagName("cfdi:Comprobante");
+                foreach (XmlNode nodo in xmlNodoLista)
+                {
+                    nodo.SelectSingleNode("@sello").InnerText = digitalStamp;
+                }
+
+                XmlNodeList xmlNodoLista2 = xmlDoc.GetElementsByTagName("retenciones:Retenciones");
+                foreach (XmlNode nodo in xmlNodoLista2)
+                {
+                    nodo.SelectSingleNode("@Sello").InnerText = digitalStamp;
+                }
+
+                this.code = "C-00005";
+                this.message = "Archivo xml modificado con exito, se agregó el sello";
+                this.newXml = xmlDoc.InnerXml;
+            }
+            catch (Exception e)
+            {
+                this.code = "EX-001";
+                this.message = "Error: " + e.Message;
+            }
+            return this.newXml;
+        }
+
+
+        public string getMessage()
+        {
+            return this.message;
+        }
+
+
+        public string getCertificate()
+        {
+            return this.certificate;
+        }
+
+        public string getCertificateNumber()
+        {
+            return this.certificateNumber;
         }
 
         private string ReverseString(string s)
@@ -146,112 +367,5 @@ namespace Comprobante
             Array.Reverse(arr);
             return new string(arr);
         }
-
-        public Resultados agregaSello(string xmlFile, string sello, string certificado, string numCertificado)
-        {
-            string outputxml = "output.xml";
-            Resultados result = new Resultados();
-
-            try
-            {
-                if (!File.Exists(xmlFile))
-                {
-                    FileStream stream = new FileStream(outputxml, FileMode.Create, FileAccess.Write);
-                    StreamWriter writer = new StreamWriter(stream);
-                    writer.WriteLine(xmlFile);
-                    writer.Close();
-                    xmlFile = outputxml;
-                }
-                XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.Load(xmlFile);
-                XmlNodeList xmlNodoLista = xmlDoc.GetElementsByTagName("cfdi:Comprobante");
-
-                foreach (XmlNode nodo in xmlNodoLista)
-                {
-                    nodo.SelectSingleNode("@sello").InnerText = sello;
-                    nodo.SelectSingleNode("@certificado").InnerText = certificado;
-                    nodo.SelectSingleNode("@noCertificado").InnerText = numCertificado;
-                }
-                xmlDoc.Save(xmlFile);
-
-                if (File.Exists(xmlFile))
-                {
-                    StreamReader objReader = new StreamReader(xmlFile, Encoding.UTF8);
-                    xmlFile = objReader.ReadToEnd();
-                    objReader.Close();
-                    result.code = "C000";
-                    result.message = xmlFile;
-                    result.status = true;
-                    return result;
-                }
-                else
-                {
-                    result.code = "C001";
-                    result.message = "Error: No se creo el XML con el sello, Vuelva a intentarlo";
-                    result.status = false;
-                    return result;
-                }
-            }
-            catch (Exception e)
-            {
-                result.code = "EX-001";
-                result.message = "Error: " + e.Message;
-                result.status = false;
-                return result;
-            }
-        }
-
-        public Resultados agregaSello(string xmlFile, string sello)
-        {
-            string outputxml = "output.xml";
-            Resultados result = new Resultados();
-
-            try
-            {
-                if (!File.Exists(xmlFile))
-                {
-                    FileStream stream = new FileStream(outputxml, FileMode.Create, FileAccess.Write);
-                    StreamWriter writer = new StreamWriter(stream);
-                    writer.WriteLine(xmlFile);
-                    writer.Close();
-                    xmlFile = outputxml;
-                }
-                XmlDocument xmlDoc = new XmlDocument();
-                xmlDoc.Load(xmlFile);
-                XmlNodeList xmlNodoLista = xmlDoc.GetElementsByTagName("cfdi:Comprobante");
-
-                foreach (XmlNode nodo in xmlNodoLista)
-                {
-                    nodo.SelectSingleNode("@sello").InnerText = sello;
-                }
-                xmlDoc.Save(xmlFile);
-
-                if (File.Exists(xmlFile))
-                {
-                    StreamReader objReader = new StreamReader(xmlFile, Encoding.UTF8);
-                    xmlFile = objReader.ReadToEnd();
-                    objReader.Close();
-                    result.code = "C000";
-                    result.message = xmlFile;
-                    result.status = true;
-                    return result;
-                }
-                else
-                {
-                    result.code = "C001";
-                    result.message = "Error: No se creo el XML con el sello, Vuelva a intentarlo";
-                    result.status = false;
-                    return result;
-                }
-            }
-            catch (Exception e)
-            {
-                result.code = "EX-001";
-                result.message = "Error: " + e.Message;
-                result.status = false;
-                return result;
-            }
-        }
-
     }
 }

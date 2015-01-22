@@ -32,7 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Comprobante">
+    <Reference Include="Comprobante, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Comprobante\Comprobante\bin\Debug\Comprobante.dll</HintPath>
     </Reference>
     <Reference Include="System" />

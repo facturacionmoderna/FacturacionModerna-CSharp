@@ -10,3 +10,8 @@ C:\FacturacionModernaCSharp\Comprobante\Comprobante\bin\Debug\Comprobante.dll
 C:\FacturacionModernaCSharp\Comprobante\Comprobante\bin\Debug\Comprobante.pdb
 C:\FacturacionModernaCSharp\Comprobante\Comprobante\obj\Debug\Comprobante.dll
 C:\FacturacionModernaCSharp\Comprobante\Comprobante\obj\Debug\Comprobante.pdb
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp_NET45\Comprobante\Comprobante\bin\Debug\Comprobante.dll
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp_NET45\Comprobante\Comprobante\bin\Debug\Comprobante.pdb
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp_NET45\Comprobante\Comprobante\obj\Debug\Comprobante.csprojResolveAssemblyReference.cache
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp_NET45\Comprobante\Comprobante\obj\Debug\Comprobante.dll
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp_NET45\Comprobante\Comprobante\obj\Debug\Comprobante.pdb

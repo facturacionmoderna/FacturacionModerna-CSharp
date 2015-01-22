@@ -13,14 +13,6 @@ using System.IO;
 
 namespace TimbradoCancelado
 {
-    /* NOTAS
-     * *    Todas las peticiones a los metodos de los Dlls retornan un objeto de tipo Resultados
-     * *    que contiene los siguientes atributos:
-     * *    1.- code; Codigo de error
-     * *    2.- message; Mensaje de error, mensaje de exito o resultado
-     * *    3.- status; solo toma los valores de True o False
-     * *    4.- ncert; contiene el numero de certificado, solo en algunos casos
-    */
     public partial class frmEjemplos : Form
     {
         public frmEjemplos()
@@ -40,12 +32,17 @@ namespace TimbradoCancelado
             */
 
             // Especificación de rutas especificas
-            string keyfile = "C:\\FacturacionModernaCSharp\\utilerias\\certificados\\20001000000200000192.key";
-            string certfile = "C:\\FacturacionModernaCSharp\\utilerias\\certificados\\20001000000200000192.cer";
+            string currentPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName;
+            string keyfile = currentPath + "\\utilerias\\certificados\\20001000000200000278.key";
+            string certfile = currentPath + "\\utilerias\\certificados\\20001000000200000278.cer";
+            string xsltPath;
+            if (checkBox1.Checked)
+                xsltPath = currentPath + "\\utilerias\\xslt_retenciones\\retenciones.xslt";
+            else
+                xsltPath = currentPath + "\\utilerias\\xslt3_2\\cadenaoriginal_3_2.xslt";
             string password = "12345678a";
-            string version = "3.2";
             string xmlfile = txtXML.Text;
-            string path = "C:\\FacturacionModernaCSharp\\resultados";
+            string resultPath = currentPath + "\\resultados";
 
             Cursor.Current = Cursors.WaitCursor;
             if (!System.IO.File.Exists(xmlfile)) {
@@ -63,23 +60,56 @@ namespace TimbradoCancelado
                 Environment.Exit(-1);
             }
 
-            Comprobante.Resultados r_comprobante = new Comprobante.Resultados();
-            WSConecFM.Resultados r_wsconect = new WSConecFM.Resultados();
+            /* Crear instancia al objeto comprobante */
+            Comprobante.Utilidades obj = new Comprobante.Utilidades();
 
-            /* GENERAR CADENA ORIGINAL
-             * *    Los paramteros enviado son:
-             * *    1.- version del comprobante
-             * *    2.- xml (Puede ser una cadena o una ruta)
-             * Retorna la cadena original en r_comprobante.message
+
+            /*  OBTENER LA INFORMACION DEL CERTIFICADO
+             * *    Los parametros enviados son:
+             * *    1.- Ruta del certificado
             */
-            Cadena cadena = new Cadena();
-            r_comprobante = cadena.GeneraCadena(version, xmlfile);
-            if (!r_comprobante.status)
+            string cert_b64 = "";
+            string cert_No = "";
+            if (obj.getInfoCertificate(certfile))
             {
-                MessageBox.Show(r_comprobante.message);
+                cert_b64 = obj.getCertificate();
+                cert_No = obj.getCertificateNumber();
+            }
+            else
+            {
+                MessageBox.Show(obj.getMessage());
                 Environment.Exit(-1);
             }
-            string cadenaO = r_comprobante.message;
+
+            /*  AGREGAR INFORMACION DEL CERTIFICADO AL XML ANTES DE GENERAR LA CADENA ORIGINA
+             * *    Los parametros enviados son:
+             * *    1.- Xml (Puede ser una cadena o una ruta)
+             * *    2.- Certificado codificado en base 64
+             * *    3.- Numero de certificado
+             * Retorna el XML Modificado
+            */
+            string newXml = obj.addDigitalStamp(xmlfile, cert_b64, cert_No);
+            if (newXml.Equals(""))
+            {
+                MessageBox.Show(obj.getMessage());
+                Environment.Exit(-1);
+            }
+            xmlfile = newXml;
+
+
+            /* GENERAR CADENA ORIGINAL
+             * *   Los paramteros enviado son:
+             * *    1.- xml (Puede ser una cadena o una ruta)
+             * *    2.- xslt (Ruta del archivo xslt, con el cual se construye la cadena original)
+             * *   Retorna la cadena original
+            */
+            
+            string cadenaO = obj.createOriginalChain(xmlfile, xsltPath);
+            if (cadenaO.Equals(""))
+            {
+                MessageBox.Show(obj.getMessage());
+                Environment.Exit(-1);
+            }
 
             /* GENERAR EL SELLO DEL COMPROBANTE
              * *    Los parametros enviado son:
@@ -88,45 +118,26 @@ namespace TimbradoCancelado
              * *    3.- Cadena Original (Puede ser una cadena o una ruta)
              * Retorna el sello en r_comprobante.message
             */
-            Sello sello = new Sello();
-            r_comprobante = sello.GeneraSello(keyfile, password, cadenaO);
-            if (!r_comprobante.status)
+            string sello = obj.createDigitalStamp(keyfile, password, cadenaO);
+            if (sello.Equals(""))
             {
-                MessageBox.Show(r_comprobante.message);
+                MessageBox.Show(obj.getMessage());
                 Environment.Exit(-1);
             }
-            string str_sello = r_comprobante.message;
-
-            /*  OBTENER LA INFORMACION DEL CERTIFICADO
-             * *    Los parametros enviados son:
-             * *    1.- Ruta del certificado
-             * Retorna el numero de certificado en r_comprobante.ncert
-             * Retorna el certificado en base 64 en r_comprobante.message
-            */
-            r_comprobante = sello.obtenCertificado(certfile);
-            if (!r_comprobante.status)
-            {
-                MessageBox.Show(r_comprobante.message);
-                Environment.Exit(-1);
-            }
-            string cert_b64 = r_comprobante.message;
-            string cert_No = r_comprobante.ncert;
+            
 
             /*  AGREGAR LA INFORMACION DEL SELLO AL XML
              * *    Los parametros enviados son:
              * *    1.- Xml (Puede ser una cadena o una ruta)
              * *    2.- Sello del comprobante
-             * *    3.- Certificado codificado en base 64
-             * *    4.- Numero de certificado
-             * Retorna el XML en r_comprobante.message
+             * Retorna el XML Modificado
             */
-            r_comprobante = sello.agregaSello(xmlfile, str_sello, cert_b64, cert_No);
-            if (!r_comprobante.status)
+            newXml = obj.addDigitalStamp(xmlfile, sello);
+            if (newXml.Equals(""))
             {
-                MessageBox.Show(r_comprobante.message);
+                MessageBox.Show(obj.getMessage());
                 Environment.Exit(-1);
             }
-            xmlfile = r_comprobante.message;
 
             /*  CREAR LA CONFIGURACION DE CONEXION CON EL SERVICIO SOAP
              * *    Los parametros configurables son:
@@ -139,9 +150,11 @@ namespace TimbradoCancelado
              * *    7.- string urlTimbrado; URL de la conexion con SOAP
              * La configuracion inicial es para el ambiente de pruebas
             */
+
+            WSConecFM.Resultados r_wsconect = new WSConecFM.Resultados();
             requestTimbrarCFDI reqt = new requestTimbrarCFDI();
             /*
-             * Si desea cambiar alguna configuracion realizarla solo realizar lo siguiente
+             * Si desea cambiar alguna configuracion, solo realizar lo siguiente
              * reqt.generarPDF = true;  Por poner un ejemplo
             */
 
@@ -157,38 +170,38 @@ namespace TimbradoCancelado
              * Los valores de retorno van a depender de la configuracion enviada a la función
              */
             Timbrado timbra = new Timbrado();
-            r_wsconect = timbra.Timbrar(xmlfile, reqt);
+            r_wsconect = timbra.Timbrar(newXml, reqt);
             if (!r_wsconect.status)
             {
                 MessageBox.Show(r_wsconect.message);
                 Environment.Exit(-1);
             }
             byte[] byteXML = System.Convert.FromBase64String(r_wsconect.xmlBase64);
-            System.IO.FileStream swxml = new System.IO.FileStream((path + ("\\" + (r_wsconect.uuid + ".xml"))), System.IO.FileMode.Create);
+            System.IO.FileStream swxml = new System.IO.FileStream((resultPath + ("\\" + (r_wsconect.uuid + ".xml"))), System.IO.FileMode.Create);
             swxml.Write(byteXML, 0, byteXML.Length);
             swxml.Close();
             if (reqt.generarCBB) {
                 byte[] byteCBB = System.Convert.FromBase64String(r_wsconect.cbbBase64);
-                System.IO.FileStream swcbb = new System.IO.FileStream((path + ("\\" + (r_wsconect.uuid + ".png"))), System.IO.FileMode.Create);
+                System.IO.FileStream swcbb = new System.IO.FileStream((resultPath + ("\\" + (r_wsconect.uuid + ".png"))), System.IO.FileMode.Create);
                 swcbb.Write(byteCBB, 0, byteCBB.Length);
                 swcbb.Close();
             }
             if (reqt.generarPDF)
             {
                 byte[] bytePDF = System.Convert.FromBase64String(r_wsconect.pdfBase64);
-                System.IO.FileStream swpdf = new System.IO.FileStream((path + ("\\" + (r_wsconect.uuid + ".pdf"))), System.IO.FileMode.Create);
+                System.IO.FileStream swpdf = new System.IO.FileStream((resultPath + ("\\" + (r_wsconect.uuid + ".pdf"))), System.IO.FileMode.Create);
                 swpdf.Write(bytePDF, 0, bytePDF.Length);
                 swpdf.Close();
             }
             if (reqt.generarTXT)
             {
                 byte[] byteTXT = System.Convert.FromBase64String(r_wsconect.txtBase64);
-                System.IO.FileStream swtxt = new System.IO.FileStream((path + ("\\" + (r_wsconect.uuid + ".txt"))), System.IO.FileMode.Create);
+                System.IO.FileStream swtxt = new System.IO.FileStream((resultPath + ("\\" + (r_wsconect.uuid + ".txt"))), System.IO.FileMode.Create);
                 swtxt.Write(byteTXT, 0, byteTXT.Length);
                 swtxt.Close();
             }
 
-            MessageBox.Show("Comprobante guardado en "+ path + "\\");
+            MessageBox.Show("Comprobante guardado en "+ resultPath + "\\");
             Cursor.Current = Cursors.Default;
             Close();
         }
@@ -211,11 +224,6 @@ namespace TimbradoCancelado
             MessageBox.Show(r_wsconect.message);
             Cursor.Current = Cursors.Default;
             Close();
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         /// <summary>
@@ -277,6 +285,26 @@ namespace TimbradoCancelado
             MessageBox.Show("Comprobante guardado en " + path + "\\");
             Cursor.Current = Cursors.Default;
             Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // Show the dialog and get result.
+            DialogResult result = openFileDialog1.ShowDialog();
+            if (result == DialogResult.OK) // Test result.
+            {
+                txtXML.Text = openFileDialog1.FileName;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            // Show the dialog and get result.
+            DialogResult result = openFileDialog2.ShowDialog();
+            if (result == DialogResult.OK) // Test result.
+            {
+                txtLayout.Text = openFileDialog2.FileName;
+            }
         }
     }
 }
