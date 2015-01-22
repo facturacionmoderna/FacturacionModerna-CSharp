@@ -112,7 +112,9 @@ namespace Comprobante
                         if (this.originalChain.Equals("|||"))
                         {
                             this.code = "E-0003";
-                            this.message = "Error al generar la cadena original";
+                            this.message = "Error al generar la cadena original, Compruebe que el XSLT corresponda al xml enviado";
+                            this.originalChain = "";
+                            return this.originalChain;
                         }
                     }
                 }
