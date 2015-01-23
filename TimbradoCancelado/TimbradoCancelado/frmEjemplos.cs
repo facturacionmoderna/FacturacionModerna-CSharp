@@ -239,7 +239,8 @@ namespace TimbradoCancelado
 
             Cursor.Current = Cursors.WaitCursor;
             string layoutFile = txtLayout.Text;
-            string path = "C:\\FacturacionModernaCSharp\\resultados";
+            string currentPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName;
+            string path = currentPath + "\\resultados";
             WSConecFM.Resultados r_wsconect = new WSConecFM.Resultados();
 
             // Crear instancia, para los para metros enviados a requestTimbradoCFDI

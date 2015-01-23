@@ -63,3 +63,4 @@ C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp_
 C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp_NET45\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.csproj.GenerateResource.Cache
 C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp_NET45\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.exe
 C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp_NET45\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.pdb
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp_NET45\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.csprojResolveAssemblyReference.cache
