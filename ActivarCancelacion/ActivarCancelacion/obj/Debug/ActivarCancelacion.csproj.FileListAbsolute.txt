@@ -9,3 +9,6 @@ C:\FacturacionModernaCSharp\ActivarCancelacion\ActivarCancelacion\bin\Debug\WSCo
 C:\FacturacionModernaCSharp\ActivarCancelacion\ActivarCancelacion\bin\Debug\WSConecFM.pdb
 C:\FacturacionModernaCSharp\ActivarCancelacion\ActivarCancelacion\obj\Debug\ActivarCancelacion.exe
 C:\FacturacionModernaCSharp\ActivarCancelacion\ActivarCancelacion\obj\Debug\ActivarCancelacion.pdb
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp_NET45\ActivarCancelacion\ActivarCancelacion\bin\Debug\ActivarCancelacion.exe.config
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp_NET45\ActivarCancelacion\ActivarCancelacion\obj\Debug\ActivarCancelacion.exe
+C:\Users\Arango\Documents\Visual Studio 2012\Projects\FacturacionModerna-CSharp_NET45\ActivarCancelacion\ActivarCancelacion\obj\Debug\ActivarCancelacion.pdb
