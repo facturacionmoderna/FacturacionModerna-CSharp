@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<retenciones:Retenciones xmlns:retenciones="http://www.sat.gob.mx/esquemas/retencionpago/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" http://www.sat.gob.mx/esquemas/retencionpago/1 http://www.sat.gob.mx/esquemas/retencionpago/1/retencionpagov1.xsd" Version="1.0" FolioInt="RetA" Sello="" NumCert="" Cert="" FechaExp="2015-01-21T14:33:06-06:00" CveRetenc="05">
+<retenciones:Retenciones xmlns:retenciones="http://www.sat.gob.mx/esquemas/retencionpago/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" http://www.sat.gob.mx/esquemas/retencionpago/1 http://www.sat.gob.mx/esquemas/retencionpago/1/retencionpagov1.xsd" Version="1.0" FolioInt="RetA" Sello="" NumCert="" Cert="" FechaExp="2016-05-25T09:33:06-06:00" CveRetenc="05">
     <retenciones:Emisor RFCEmisor="TUMG620310R95" NomDenRazSocE="Empresa retenedora ejemplo"/>
     <retenciones:Receptor Nacionalidad="Nacional">
         <retenciones:Nacional RFCRecep="XAXX010101000" NomDenRazSocR="Publico en General"/>
