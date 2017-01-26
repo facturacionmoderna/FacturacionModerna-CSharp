@@ -1,0 +1,60 @@
+﻿[ReciboNomina]
+fecha=asignarFecha
+subTotal=816.59
+descuento=19.04
+total=747.88
+LugarExpedicion=66600
+[DatosAdicionales]
+tipoDocumento=RECIBO DE NOMINA
+leyenda=Recibí de mi único patrón, la cantidad que ampara el presente recibo por concepto de salario, incluyendo en éste pago séptimos días  y demás prestaciones legales a que tengo derecho, manifestando mi conformidad con los importes y conceptos descritos en el mismo, sin que por periodo que se ampara se me adeude cantidad alguna.
+[Emisor]
+rfc=MSE061107IA8
+nombre=SALVATORI SOLUCIONES ECOLOGICAS
+Regimen=601
+RegistroPatronal=D3828377100
+[Receptor]
+rfc=AAYA850828U55
+nombre=ALMASRI  YASER
+Curp=AAXY850828HNELXS05
+NumSeguridadSocial=32138501294
+FechaInicioRelLaboral=2016-09-03
+Antigüedad=P16W
+TipoContrato=03
+TipoJornada=01
+TipoRegimen=02
+NumEmpleado=1618548
+RiesgoPuesto=1
+PeriodicidadPago=02
+SalarioDiarioIntegrado=114.51
+ClaveEntFed=NLE
+[Concepto#1]
+unidad=ACT
+descripcion=Pago de nómina
+valorUnitario=816.59
+importe=816.59
+[ComplementoNomina]
+Version=1.2
+TipoNomina=O
+FechaPago=2017-01-02
+FechaInicialPago=2016-12-22
+FechaFinalPago=2016-12-28
+NumDiasPagados=7
+TotalPercepciones=766.92
+TotalDeducciones=19.04
+[Percepcion#1]
+TipoPercepcion=001
+Clave=001
+Concepto=Sueldos, Salarios Rayas y Jornales
+ImporteGravado=766.92
+ImporteExento=0.00
+[Deduccion#1]
+TipoDeduccion=001
+Clave=001
+Concepto=Seguridad social
+Importe=19.04
+[OtroPago#1]
+TipoOtroPago=002
+Clave=017
+Concepto=SUBSIDIO AL EMPLEO EFECTIVAMENTE ENTREGADO
+Importe=49.67
+SubsidioAlEmpleo.SubsidioCausado=93.63
