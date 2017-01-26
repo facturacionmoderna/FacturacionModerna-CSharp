@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Comprobante;
-using WSConecFM;
+using ConnectionWSFM;
 using System.IO;
 
 namespace TimbradoCancelado
@@ -33,14 +33,16 @@ namespace TimbradoCancelado
 
             // Especificación de rutas especificas
             string currentPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName;
-            string keyfile = currentPath + "\\utilerias\\certificados\\20001000000200000278.key";
-            string certfile = currentPath + "\\utilerias\\certificados\\20001000000200000278.cer";
+            string keyfile = currentPath + "\\utilerias\\certificados\\20001000000300022759.key";
+            string certfile = currentPath + "\\utilerias\\certificados\\20001000000300022759.cer";
+            string password = "12345678a";
             string xsltPath;
+            
             if (checkBox1.Checked)
                 xsltPath = currentPath + "\\utilerias\\xslt_retenciones\\retenciones.xslt";
             else
                 xsltPath = currentPath + "\\utilerias\\xslt3_2\\cadenaoriginal_3_2.xslt";
-            string password = "12345678a";
+            
             string xmlfile = txtXML.Text;
             string resultPath = currentPath + "\\resultados";
 
@@ -63,7 +65,6 @@ namespace TimbradoCancelado
             /* Crear instancia al objeto comprobante */
             Comprobante.Utilidades obj = new Comprobante.Utilidades();
 
-
             /*  OBTENER LA INFORMACION DEL CERTIFICADO
              * *    Los parametros enviados son:
              * *    1.- Ruta del certificado
@@ -81,7 +82,7 @@ namespace TimbradoCancelado
                 Environment.Exit(-1);
             }
 
-            /*  AGREGAR INFORMACION DEL CERTIFICADO AL XML ANTES DE GENERAR LA CADENA ORIGINA
+            /*  AGREGAR INFORMACION DEL CERTIFICADO AL XML ANTES DE GENERAR LA CADENA ORIGINAL
              * *    Los parametros enviados son:
              * *    1.- Xml (Puede ser una cadena o una ruta)
              * *    2.- Certificado codificado en base 64
@@ -141,67 +142,61 @@ namespace TimbradoCancelado
 
             /*  CREAR LA CONFIGURACION DE CONEXION CON EL SERVICIO SOAP
              * *    Los parametros configurables son:
-             * *    1.- string UserID; Nombre de usuario que se utiliza para la conexion con SOAP
-             * *    2.- string UserPass; Contraseña del usuario para conectarse a SOAP
-             * *    3.- string emisorRFC; RFC del contribuyente
-             * *    4.- Boolean generarCBB; Indica si se desea generar el CBB
-             * *    5.- Boolean generarTXT; Indica si se desea generar el TXT
-             * *    6.- Boolean generarPDF; Indica si se desea generar el PDF
-             * *    7.- string urlTimbrado; URL de la conexion con SOAP
-             * La configuracion inicial es para el ambiente de pruebas
+             * *    1.- Nombre de usuario que se utiliza para la conexion al Web Service
+             * *    2.- Contraseña del usuario que se utiliza para la conexion al Web Service
+             * *    3.- RFC Emisor
+             * *    4.- Habilitar el retorno del CBB
+             * *    5.- Habilitar el retorno del TXT
+             * *    6.- Habilitar el retorno del PDF
+             * *    7.- URL del Web Service (endpoint)
+             * *    8.- Habilitar debug para guardar Request y Response (Si se habilita, se debe de especificar una ruta del archivo log)
+             * * La configuracion inicial es para el ambiente de pruebas
             */
+            ConnectionFM conX = new ConnectionFM();
+            conX.setDebugMode(true);
+            conX.setLogFilePath(currentPath + "\\logs\\log.txt");
+            conX.setGenerarPdf(true);
 
-            WSConecFM.Resultados r_wsconect = new WSConecFM.Resultados();
-            requestTimbrarCFDI reqt = new requestTimbrarCFDI();
-            /*
-             * Si desea cambiar alguna configuracion, solo realizar lo siguiente
-             * reqt.generarPDF = true;  Por poner un ejemplo
-            */
 
-            /*  TIMBRAR XML
-             * *    Los parametros enviados son:
-             * *    1.- XML; (Acepta una ruta o una cadena)
-             * *    2.- Objeto con las configuraciones de conexion con SOAP
-             * Retorna un objeto con los siguientes valores codificado en base 64:
-             * *    1.- xml en base 64
-             * *    2.- pdf en base 64
-             * *    3.- png en base 64
-             * *    4.- txt en base 64
-             * Los valores de retorno van a depender de la configuracion enviada a la función
+            /*  Timbrar Layout
+             * *   Se envia el layout a timbrar, puede ser una xml o un txt, especificando la ruta del archivo
+             * *   o un string conteniendo todo el layout
              */
-            Timbrado timbra = new Timbrado();
-            r_wsconect = timbra.Timbrar(newXml, reqt);
-            if (!r_wsconect.status)
+            if (conX.timbrarLayout(newXml) == true)
             {
-                MessageBox.Show(r_wsconect.message);
-                Environment.Exit(-1);
+                byte[] byteXML = System.Convert.FromBase64String(conX.getXmlB64());
+                System.IO.FileStream swxml = new System.IO.FileStream((resultPath + ("\\" + (conX.getUuid() + ".xml"))), System.IO.FileMode.Create);
+                swxml.Write(byteXML, 0, byteXML.Length);
+                swxml.Close();
+
+                if (conX.getCbbB64() != "")
+                {
+                    byte[] byteCBB = System.Convert.FromBase64String(conX.getCbbB64());
+                    System.IO.FileStream swcbb = new System.IO.FileStream((resultPath + ("\\" + (conX.getUuid() + ".png"))), System.IO.FileMode.Create);
+                    swcbb.Write(byteCBB, 0, byteCBB.Length);
+                    swcbb.Close();
+                }
+                if (conX.getPdfB64() != "")
+                {
+                    byte[] bytePDF = System.Convert.FromBase64String(conX.getPdfB64());
+                    System.IO.FileStream swpdf = new System.IO.FileStream((resultPath + ("\\" + (conX.getUuid() + ".pdf"))), System.IO.FileMode.Create);
+                    swpdf.Write(bytePDF, 0, bytePDF.Length);
+                    swpdf.Close();
+                }
+                if (conX.getTxtB64() != "")
+                {
+                    byte[] byteTXT = System.Convert.FromBase64String(conX.getTxtB64());
+                    System.IO.FileStream swtxt = new System.IO.FileStream((resultPath + ("\\" + (conX.getUuid() + ".txt"))), System.IO.FileMode.Create);
+                    swtxt.Write(byteTXT, 0, byteTXT.Length);
+                    swtxt.Close();
+                }
+                MessageBox.Show("Comprobante guardado en " + resultPath + "\\");
             }
-            byte[] byteXML = System.Convert.FromBase64String(r_wsconect.xmlBase64);
-            System.IO.FileStream swxml = new System.IO.FileStream((resultPath + ("\\" + (r_wsconect.uuid + ".xml"))), System.IO.FileMode.Create);
-            swxml.Write(byteXML, 0, byteXML.Length);
-            swxml.Close();
-            if (reqt.generarCBB) {
-                byte[] byteCBB = System.Convert.FromBase64String(r_wsconect.cbbBase64);
-                System.IO.FileStream swcbb = new System.IO.FileStream((resultPath + ("\\" + (r_wsconect.uuid + ".png"))), System.IO.FileMode.Create);
-                swcbb.Write(byteCBB, 0, byteCBB.Length);
-                swcbb.Close();
-            }
-            if (reqt.generarPDF)
+            else
             {
-                byte[] bytePDF = System.Convert.FromBase64String(r_wsconect.pdfBase64);
-                System.IO.FileStream swpdf = new System.IO.FileStream((resultPath + ("\\" + (r_wsconect.uuid + ".pdf"))), System.IO.FileMode.Create);
-                swpdf.Write(bytePDF, 0, bytePDF.Length);
-                swpdf.Close();
-            }
-            if (reqt.generarTXT)
-            {
-                byte[] byteTXT = System.Convert.FromBase64String(r_wsconect.txtBase64);
-                System.IO.FileStream swtxt = new System.IO.FileStream((resultPath + ("\\" + (r_wsconect.uuid + ".txt"))), System.IO.FileMode.Create);
-                swtxt.Write(byteTXT, 0, byteTXT.Length);
-                swtxt.Close();
+                MessageBox.Show("[" + conX.getErrorCode() + "] " + conX.getErrorMessage());
             }
 
-            MessageBox.Show("Comprobante guardado en "+ resultPath + "\\");
             Cursor.Current = Cursors.Default;
             Close();
         }
@@ -213,16 +208,22 @@ namespace TimbradoCancelado
         {
             Cursor.Current = Cursors.WaitCursor;
             string uuid = txtUUID.Text;
+            string currentPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName;
 
-            WSConecFM.Resultados r_wsconect = new WSConecFM.Resultados();
+            ConnectionFM conX = new ConnectionFM();
+            conX.setDebugMode(true);
+            conX.setLogFilePath(currentPath + "\\logs\\log.txt");
+            if (conX.cancelarCfdi(uuid) == true)
+            {
+                MessageBox.Show("[" + conX.getSuccessCode() + "] " + conX.getSuccessMessage());
+            }
+            else
+            {
+                MessageBox.Show("[" + conX.getErrorCode() + "] " + conX.getErrorMessage());
+            }
 
-            requestCancelarCFDI reqc = new requestCancelarCFDI();
-
-            Cancelado conex = new Cancelado();
-            r_wsconect = conex.Cancelar(reqc, uuid);
-
-            MessageBox.Show(r_wsconect.message);
             Cursor.Current = Cursors.Default;
+            Environment.Exit(-1);
             Close();
         }
 
@@ -240,50 +241,64 @@ namespace TimbradoCancelado
             Cursor.Current = Cursors.WaitCursor;
             string layoutFile = txtLayout.Text;
             string currentPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName;
-            string path = currentPath + "\\resultados";
-            WSConecFM.Resultados r_wsconect = new WSConecFM.Resultados();
+            string resultPath = currentPath + "\\resultados";
 
-            // Crear instancia, para los para metros enviados a requestTimbradoCFDI
-            requestTimbrarCFDI reqt = new requestTimbrarCFDI();
-            reqt.proxy_url = "http://207.91.10.234";
-            reqt.proxy_port = 8080;
-            reqt.proxy_user = "hola";
-            reqt.proxy_pass = "hola";
+            /*  CREAR LA CONFIGURACION DE CONEXION CON EL SERVICIO SOAP
+             * *    Los parametros configurables son:
+             * *    1.- Nombre de usuario que se utiliza para la conexion al Web Service
+             * *    2.- Contraseña del usuario que se utiliza para la conexion al Web Service
+             * *    3.- RFC Emisor
+             * *    4.- Habilitar el retorno del CBB
+             * *    5.- Habilitar el retorno del TXT
+             * *    6.- Habilitar el retorno del PDF
+             * *    7.- URL del Web Service (endpoint)
+             * *    8.- Habilitar debug para guardar Request y Response (Si se habilita, se debe de especificar una ruta del archivo log)
+             * * La configuracion inicial es para el ambiente de pruebas
+            */
+            ConnectionFM conX = new ConnectionFM();
+            conX.setDebugMode(true);
+            conX.setLogFilePath(currentPath + "\\logs\\log.txt");
+            conX.setGenerarPdf(true);
 
-            Timbrado timbra = new Timbrado();
-            r_wsconect = timbra.Timbrar(layoutFile, reqt);
-            if (!r_wsconect.status)
+            /*  Timbrar Layout
+             * *   Se envia el layout a timbrar, puede ser una xml o un txt, especificando la ruta del archivo
+             * *   o un string conteniendo todo el layout
+             */
+            if (conX.timbrarLayout(layoutFile) == true)
             {
-                MessageBox.Show(r_wsconect.message);
-                Environment.Exit(-1);
+                byte[] byteXML = System.Convert.FromBase64String(conX.getXmlB64());
+                System.IO.FileStream swxml = new System.IO.FileStream((resultPath + ("\\" + (conX.getUuid() + ".xml"))), System.IO.FileMode.Create);
+                swxml.Write(byteXML, 0, byteXML.Length);
+                swxml.Close();
+
+                if (conX.getCbbB64() != "")
+                {
+                    byte[] byteCBB = System.Convert.FromBase64String(conX.getCbbB64());
+                    System.IO.FileStream swcbb = new System.IO.FileStream((resultPath + ("\\" + (conX.getUuid() + ".png"))), System.IO.FileMode.Create);
+                    swcbb.Write(byteCBB, 0, byteCBB.Length);
+                    swcbb.Close();
+                }
+                if (conX.getPdfB64() != "")
+                {
+                    byte[] bytePDF = System.Convert.FromBase64String(conX.getPdfB64());
+                    System.IO.FileStream swpdf = new System.IO.FileStream((resultPath + ("\\" + (conX.getUuid() + ".pdf"))), System.IO.FileMode.Create);
+                    swpdf.Write(bytePDF, 0, bytePDF.Length);
+                    swpdf.Close();
+                }
+                if (conX.getTxtB64() != "")
+                {
+                    byte[] byteTXT = System.Convert.FromBase64String(conX.getTxtB64());
+                    System.IO.FileStream swtxt = new System.IO.FileStream((resultPath + ("\\" + (conX.getUuid() + ".txt"))), System.IO.FileMode.Create);
+                    swtxt.Write(byteTXT, 0, byteTXT.Length);
+                    swtxt.Close();
+                }
+                MessageBox.Show("Comprobante guardado en " + resultPath + "\\");
             }
-            byte[] byteXML = System.Convert.FromBase64String(r_wsconect.xmlBase64);
-            System.IO.FileStream swxml = new System.IO.FileStream((path + ("\\" + (r_wsconect.uuid + ".xml"))), System.IO.FileMode.Create);
-            swxml.Write(byteXML, 0, byteXML.Length);
-            swxml.Close();
-            if (reqt.generarCBB)
+            else
             {
-                byte[] byteCBB = System.Convert.FromBase64String(r_wsconect.cbbBase64);
-                System.IO.FileStream swcbb = new System.IO.FileStream((path + ("\\" + (r_wsconect.uuid + ".png"))), System.IO.FileMode.Create);
-                swcbb.Write(byteCBB, 0, byteCBB.Length);
-                swcbb.Close();
-            }
-            if (reqt.generarPDF)
-            {
-                byte[] bytePDF = System.Convert.FromBase64String(r_wsconect.pdfBase64);
-                System.IO.FileStream swpdf = new System.IO.FileStream((path + ("\\" + (r_wsconect.uuid + ".pdf"))), System.IO.FileMode.Create);
-                swpdf.Write(bytePDF, 0, bytePDF.Length);
-                swpdf.Close();
-            }
-            if (reqt.generarTXT)
-            {
-                byte[] byteTXT = System.Convert.FromBase64String(r_wsconect.txtBase64);
-                System.IO.FileStream swtxt = new System.IO.FileStream((path + ("\\" + (r_wsconect.uuid + ".txt"))), System.IO.FileMode.Create);
-                swtxt.Write(byteTXT, 0, byteTXT.Length);
-                swtxt.Close();
+                MessageBox.Show("[" + conX.getErrorCode() + "] " + conX.getErrorMessage());
             }
 
-            MessageBox.Show("Comprobante guardado en " + path + "\\");
             Cursor.Current = Cursors.Default;
             Close();
         }
