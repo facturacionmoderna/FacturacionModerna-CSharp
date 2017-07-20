@@ -41,7 +41,7 @@ namespace TimbradoCancelado
             if (checkBox1.Checked)
                 xsltPath = currentPath + "\\utilerias\\xslt_retenciones\\retenciones.xslt";
             else
-                xsltPath = currentPath + "\\utilerias\\xslt3_2\\cadenaoriginal_3_2.xslt";
+                xsltPath = currentPath + "\\utilerias\\xslt3_3\\cadenaoriginal_3_3.xslt";
             
             string xmlfile = txtXML.Text;
             string resultPath = currentPath + "\\resultados";

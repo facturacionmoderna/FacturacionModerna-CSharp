@@ -75,3 +75,14 @@ C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_CSharp_
 C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_CSharp_V45\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.frmEjemplos.resources
 C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_CSharp_V45\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.Properties.Resources.resources
 C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_CSharp_V45\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.csproj.GenerateResource.Cache
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_CSharp\FM_CSharp_V45\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.exe.config
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_CSharp\FM_CSharp_V45\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.exe
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_CSharp\FM_CSharp_V45\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.pdb
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_CSharp\FM_CSharp_V45\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.exe
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_CSharp\FM_CSharp_V45\TimbradoCancelado\TimbradoCancelado\bin\Debug\TimbradoCancelado.pdb
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_CSharp\FM_CSharp_V45\TimbradoCancelado\TimbradoCancelado\bin\Debug\Comprobante.dll
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_CSharp\FM_CSharp_V45\TimbradoCancelado\TimbradoCancelado\bin\Debug\ConnectionWSFM.dll
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_CSharp\FM_CSharp_V45\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.csprojResolveAssemblyReference.cache
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_CSharp\FM_CSharp_V45\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.frmEjemplos.resources
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_CSharp\FM_CSharp_V45\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.Properties.Resources.resources
+C:\Users\Benito Arango\Documents\Visual Studio 2012\Projects\Timbrado\FM_CSharp\FM_CSharp_V45\TimbradoCancelado\TimbradoCancelado\obj\Debug\TimbradoCancelado.csproj.GenerateResource.Cache
